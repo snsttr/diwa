@@ -14,5 +14,8 @@
   },
   "require": {
     "erusev/parsedown": "1.6.*"
+  },
+  "require-dev": {
+    "heroku/heroku-buildpack-php": "*"
   }
 }
