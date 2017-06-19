@@ -3,6 +3,9 @@
 // bootstrap DIWA
 require_once __DIR__ . '/includes/bootstrap.php';
 
+// start output buffering
+ob_start();
+
 // include header
 require_once __DIR__ . '/layout/header.php';
 
@@ -25,6 +28,9 @@ else {
 
 // include footer
 require_once __DIR__ . '/layout/footer.php';
+
+// send buffered output
+ob_end_flush();
 
 // close db Connection
 @$db->close();
