@@ -1,7 +1,7 @@
 <?php
 
 // PHP Settings
-$config['php']['error_reporting']       = E_ALL;
+$config['php']['error_reporting']       = 0;
 
 // SYSTEM Settings
 $config['system']['hashing_algorithm']  = 'md5';
