@@ -18,9 +18,6 @@ This is just a short description. For full Documentation see [docs](docs) Direct
 
        php -S localhost:80 -t /path/to/diwa/app
 
-## Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/snsttr/diwa)
-
 ## Docker
 To use DIWA within a Docker Container just clone the repository and run the following Docker
 commands:
