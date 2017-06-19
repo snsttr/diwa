@@ -25,7 +25,7 @@ This is just a short description. For full Documentation see [docs](docs) Direct
 To use DIWA within a Docker Container just clone the repository and run the following Docker
 commands:
 
-        docker build -t diwa .
-        docker run -p 8080:80 -d diwa:latest
+    docker build -t diwa .
+    docker run -p 8080:80 -d diwa:latest
 
 DIWA will be accessible on port 8080 of your dockers hostname / ip.
