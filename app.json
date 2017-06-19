@@ -1,6 +1,6 @@
 {
   "name": "DIWA",
-  "description": "Deliberately Insecure Web Application: A very insecure web app with a lot of security holes and bugs to demonstrate the problems of insecure web apps.",
+  "description": "A very insecure web app with a lot of security holes and bugs to demonstrate the problems of insecure web apps.",
   "repository": "https://github.com/snsttr/diwa",
   "keywords": ["hack", "hacking", "insecure", "security", "workshop", "challenge", "training"]
 }
