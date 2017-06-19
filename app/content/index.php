@@ -21,7 +21,7 @@
                     <li><a href="https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure" target="_blank">Sensitive Data Exposure</a></li>
                     <li><a href="https://www.owasp.org/index.php/Brute_force_attack" target="_blank">Brute Force Attacks</a></li>
                 </ul>
-                <h2>What should I do?</h2>
+                <h2>What can I do now?</h2>
                 <p>Try to find out more about the possible attack Vectors shown above. Then just feel free to hack everything on this website you can find, e.g.:</p>
                 <ul>
                     <li>Brute Force attack the Invitation Code in the <a href="/?page=register">Registration form</a></li>

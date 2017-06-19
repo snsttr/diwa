@@ -2,7 +2,7 @@
 
 // load config
 try {
-    @require __DIR__ . '/../config.php';
+    require __DIR__ . '/../config.php';
     if(false === $config || !is_array($config)) {
         throw new Exception('the $config-variable seems not to be available. Please check your config.php.');
     }
@@ -31,7 +31,6 @@ if(!class_exists('SQLite3')) {
 try {
     $db = new SQLite3(__DIR__ . '/../../database/' . $config['database']['database']);
     $db->enableExceptions(true);
-    // TODO check if DB Connection could be established
 }
 catch(Exception $ex) {
     error(500, 'The Connection to the Database could not be established: ' . $ex->getMessage());
