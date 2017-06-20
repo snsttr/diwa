@@ -1,7 +1,7 @@
 {
   "name": "snsttr/diwa",
   "description": "A Deliberately Insecure Web Application",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
