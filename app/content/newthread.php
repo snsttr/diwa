@@ -67,7 +67,7 @@ catch(Exception $ex) {
                             <label for="post">Your Post:</label>
                             <textarea class="form-control" rows="5" name="post" id="post"><?php echo isset($_POST['post']) ? $_POST['post'] : ''; ?></textarea>
                         </div>
-                        <?php if('1' === $_SESSION['user']['is_admin']) { ?>
+                        <?php if(1 === $_SESSION['user']['is_admin']) { ?>
                             <div  class="checkbox">
                                 <label><input type="checkbox" name="admins_only" value="1"<?php echo (isset($_POST['admins_only']) && '1' === $_POST['admins_only'] ? ' checked="checked"' : '') ?>> This Thread is for <strong>Administrators only</strong></label>
                             </div>

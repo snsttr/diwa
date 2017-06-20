@@ -104,14 +104,14 @@ catch(Exception $ex) {
     <?php
     $count = 0;
     while ($download = $result->fetchArray()) {
-        if('1' === $download['allow_guests'] || $loggedIn) {
+        if(1 === $download['allow_guests'] || $loggedIn) {
             if($count === 0) {
                 echo '<div class="row">';
             }
             ?>
             <div class="col-lg-6">
                 <div class="panel panel-primary">
-                    <div class="panel-heading"><?php echo ('1' === $download['allow_guests'] ? '' : icon('user', 'User only Download')); ?> <strong><?php echo $download['title']; ?></strong></div>
+                    <div class="panel-heading"><?php echo (1 === $download['allow_guests'] ? '' : icon('user', 'User only Download')); ?> <strong><?php echo $download['title']; ?></strong></div>
                     <div class="panel-body"><p><?php echo $download['description']; ?></p></div>
                     <div class="panel-footer text-center">
                         <div class="btn-group">

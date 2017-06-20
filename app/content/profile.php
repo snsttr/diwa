@@ -112,7 +112,7 @@ $countryList = array('Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'And
                 <?php if($adminMode) { ?>
                     <hr/>
                     <div  class="checkbox">
-                        <label><input type="checkbox" name="is_admin" value="1"<?php echo ('1' === $userData['is_admin'] ? ' checked="checked"' : '') . ($userId === $_SESSION['user_id'] ? ' disabled="disabled"' : '') ?>> This User is an <strong>Administrator</strong></label>
+                        <label><input type="checkbox" name="is_admin" value="1"<?php echo (1 === $userData['is_admin'] ? ' checked="checked"' : '') . ($userId === $_SESSION['user_id'] ? ' disabled="disabled"' : '') ?>> This User is an <strong>Administrator</strong></label>
                     </div>
                     <hr/>
                 <?php } ?>

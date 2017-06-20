@@ -36,7 +36,7 @@ try {
                 // successfully uploaded and moved ...
                 // ... so save file to database
                 $allowGuests = (isset($_POST['guests']) && '1' === $_POST['guests']);
-                $approved = (isset($_SESSION['user']['is_admin']) && '1' === $_SESSION['user']['is_admin']);
+                $approved = (isset($_SESSION['user']['is_admin']) && 1 === $_SESSION['user']['is_admin']);
                 $sql = 'INSERT INTO ' . $config['database']['prefix'] . 'downloads (allow_guests, approved, title, description, file) VALUES (' . ($allowGuests ? 1 : 0) . ', ' . ($approved ? 1 : 0) . ', \'' . $_POST['title'] . '\', \'' . $_POST['description'] . '\', \'' . basename($_FILES['file']['name']) . '\')';
                 $saveResult = $db->exec($sql);
                 if(!$saveResult) {
