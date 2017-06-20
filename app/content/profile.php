@@ -33,7 +33,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
     // change password if entered
     if(!empty($_POST['password'])) {
         if ($_POST['password'] === $_POST['password-repeat']) {
-            $passwordSql = ', password = \'' . hash($config['system']['hashing_algorithm'], $_POST['password']) . ' \'';
+            $passwordSql = ', password = \'' . hash($config['system']['hashing_algorithm'], $_POST['password']) . '\'';
         }
         else {
             $errors[] = 'The passwords do not match';
