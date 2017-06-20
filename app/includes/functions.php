@@ -149,13 +149,13 @@ function icon($pIcon, $pTitle = null) {
 /**
  * Perform a user login
  *
- * @param $pUsername
+ * @param $pEmail
  * @param $pPassword
  * @return bool
  */
-function login($pUsername, $pPassword) {
+function login($pEmail, $pPassword) {
     global $config, $db, $_SESSION;
-    $query = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE username = \'' . $pUsername . '\' AND password = \'' . hash($config['system']['hashing_algorithm'], $pPassword) . '\';';
+    $query = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE email = \'' . $pEmail . '\' AND password = \'' . hash($config['system']['hashing_algorithm'], $pPassword) . '\';';
     $result = $db->query($query);
 
     // found a matching user?

@@ -2,14 +2,14 @@
     <div class="row">
         <div class="col-lg-12">
             <?php
-            if(isset($_POST['username']) && isset($_POST['password'])) {
+            if(isset($_POST['email']) && isset($_POST['password'])) {
                 try {
                     // login
-                    if(login($_POST['username'], $_POST['password'])) {
+                    if(login($_POST['email'], $_POST['password'])) {
                         redirect('/?page=loggedin');
                     }
                     else {
-                        echo '<div class="alert alert-danger">Wrong Username or Password</div>';
+                        echo '<div class="alert alert-danger">Wrong E-Mail-Address or Password</div>';
                     }
                 }
                 catch (Exception $ex) {
