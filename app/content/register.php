@@ -13,12 +13,12 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
         $errors[] = 'Your Username has to be at least 3 Characters long.';
     }
     else {
-        // find out if username already is in use
+        // find out if email-address already is in use
         try {
-            $sql = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE username = \'' . $_POST['username'] . '\'';
+            $sql = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE email = \'' . $_POST['email'] . '\'';
             $resultUsername = $db->query($sql);
             if($resultUsername->fetchArray()) {
-                $errors[] = 'The username "' . $_POST['username'] . '" already is in use. Please choose a different one.';
+                $errors[] = 'The E-Mail-Address "' . $_POST['email'] . '" already is in use. Please choose a different one.';
             }
         }
         catch (Exception $ex) {
