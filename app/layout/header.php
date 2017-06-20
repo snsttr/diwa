@@ -19,7 +19,7 @@ function menuEntry($pTitle, $pPage = null) {
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
-<body>
+<body class="<?php echo $_GET['page']; ?>">
 <!--[if lte IE 9]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
 <![endif]-->
@@ -60,7 +60,7 @@ function menuEntry($pTitle, $pPage = null) {
             </ul>
         <?php } else { ?>
             <form class="navbar-form navbar-right" role="form" method="post" action="?page=login">
-                <div class="form-group"><input type="text" name="email" placeholder="E-Mail-Address" class="form-control"></div>
+                <div class="form-group"><input type="text" name="login" placeholder="E-Mail-Address" class="form-control"></div>
                 <div class="form-group"><input type="password" name="password" placeholder="Password" class="form-control"></div>
                 <button type="submit" class="btn btn-success">Sign in</button>
                 <a href="/?page=register" class="btn btn-primary">Register</a>
