@@ -83,6 +83,8 @@ catch(Exception $ex) {
                 else {
                     echo '<div class="alert alert-info">You can only view files with the following file extensions: ' . implode(', ', $validExtensions) . '</div>';
                 }
+            } else {
+                echo '<div class="alert alert-info">The file ' . $_GET['file'] . ' does not exist.</div>';
             }
             ?>
         </div>
