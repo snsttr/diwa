@@ -1,19 +1,26 @@
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-});
 
-$('.remove-user').click(function () {
-    return window.confirm('Do you really want to delete this User?');
-});
+    $('.remove-user').click(function () {
+        return window.confirm('Do you really want to delete this User?');
+    });
 
-$('.remove-file').click(function () {
-    return window.confirm('Do you really want to delete this File?');
-});
+    $('.remove-file').click(function () {
+        return window.confirm('Do you really want to delete this File?');
+    });
 
-$('.select-all-admins').click(function () {
-    $('.select-admin').prop('checked', true);
-});
+    $('.select-all-admins').click(function () {
+        $('.select-admin').prop('checked', true);
+    });
 
-$('.unselect-all-admins').click(function () {
-    $('.select-admin').prop('checked', false);
+    $('.unselect-all-admins').click(function () {
+        $('.select-admin').prop('checked', false);
+    });
+
+    $('.clickable-row').click(function() {
+        var anchor = $(this).find('td:first a');
+        if(anchor && anchor.length >= 1) {
+            window.location = anchor[0].href;
+        }
+    });
 });

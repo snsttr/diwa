@@ -51,7 +51,7 @@ catch(Exception $ex) {
                         $adminsOnly = (1 == $thread['admins_only']);
                         $adminRestricted = ($adminsOnly && 0 == $_SESSION['user']['is_admin']);
                         ?>
-                        <tr>
+                        <tr class="<?php echo ($adminsOnly ? '' : 'clickable-row'); ?>">
                             <td><?php echo ($adminsOnly ? icon('lock') : icon('user')) . ' <strong>' . ($adminRestricted ? '' . $thread['title'] : '<a href="/?page=thread&id=' . $thread['id'] . '">' . $thread['title'] . '</a>') . '</strong>'; ?></td>
                             <td><?php echo $thread['count_post']; ?></td>
                             <td><?php echo $thread['last_post']; ?></td>
