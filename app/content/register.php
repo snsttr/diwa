@@ -24,6 +24,18 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
         catch (Exception $ex) {
             error(500, 'Exception while finding a User: ' . $ex->getMessage());
         }
+
+        // find out if username already is in use
+        try {
+            $sql = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE username = \'' . $_POST['username'] . '\'';
+            $resultUsername = $db->query($sql);
+            if($resultUsername->fetchArray()) {
+                $errors[] = 'The Username "' . $_POST['username'] . '" already is in use. Please choose a different one.';
+            }
+        }
+        catch (Exception $ex) {
+            error(500, 'Exception while finding a User: ' . $ex->getMessage());
+        }
     }
 
     if(!isset($_POST['email']) || false === filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
