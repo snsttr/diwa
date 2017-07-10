@@ -50,41 +50,41 @@ catch(Exception $ex) {
         </div>
         <div class="col-lg-9">
             <?php
-            if(isset($_GET['file']) && !empty($_GET['file']) && file_exists($rootPath . $path . $_GET['file'])) {
-                $fileExtension = strtolower(substr($_GET['file'], strrpos($_GET['file'], '.') + 1));
-                $validMarkdownExtensions = array('md', 'markdown');
-                $validExtensions = array_merge(array('txt', 'text', 'md', 'markdown', 'asciidoc', 'adoc'), $validMarkdownExtensions);
+            if(isset($_GET['file']) && !empty($_GET['file'])) {
                 echo '<h1>' . $_GET['file'] . '</h1><hr/>';
-                if(in_array($fileExtension, $validExtensions)) {
-                    if (512 * 1024 > filesize($rootPath . $path . $_GET['file'])) {
-                        $fileContent = file_get_contents($rootPath . $path . $_GET['file']);
-                        // try to parse markdown-files
-                        $markdown = false;
-                        if(in_array($fileExtension, $validMarkdownExtensions)) {
-                            if(class_exists('Parsedown')) {
-                                try {
-                                    $parsedown = new Parsedown();
-                                    echo $parsedown->text($fileContent);
-                                    $markdown = true;
-                                }
-                                catch(Exception $ex) {
-                                    // leave empty
+                if (file_exists($rootPath . $path . $_GET['file'])) {
+                    $fileExtension = strtolower(substr($_GET['file'], strrpos($_GET['file'], '.') + 1));
+                    $validMarkdownExtensions = array('md', 'markdown');
+                    $validExtensions = array_merge(array('txt', 'text', 'md', 'markdown', 'asciidoc', 'adoc'), $validMarkdownExtensions);
+                    if (in_array($fileExtension, $validExtensions)) {
+                        if (512 * 1024 > filesize($rootPath . $path . $_GET['file'])) {
+                            $fileContent = file_get_contents($rootPath . $path . $_GET['file']);
+                            // try to parse markdown-files
+                            $markdown = false;
+                            if (in_array($fileExtension, $validMarkdownExtensions)) {
+                                if (class_exists('Parsedown')) {
+                                    try {
+                                        $parsedown = new Parsedown();
+                                        echo $parsedown->text($fileContent);
+                                        $markdown = true;
+                                    } catch (Exception $ex) {
+                                        // leave empty
+                                    }
                                 }
                             }
-                        }
-                        // dont parse markdown
-                        if(!$markdown) {
-                            echo '<pre>' . $fileContent . '</pre>';
+                            // dont parse markdown
+                            if (!$markdown) {
+                                echo '<pre>' . $fileContent . '</pre>';
+                            }
+                        } else {
+                            echo '<div class="alert alert-info">The file ' . $_GET['file'] . ' is too big (512KB max).</div>';
                         }
                     } else {
-                        echo '<div class="alert alert-info">The file ' . $_GET['file'] . ' is too big (512KB max).</div>';
+                        echo '<div class="alert alert-info">You can only view files with the following file extensions: ' . implode(', ', $validExtensions) . '</div>';
                     }
+                } else {
+                    echo '<div class="alert alert-info">The file ' . $_GET['file'] . ' does not exist.</div>';
                 }
-                else {
-                    echo '<div class="alert alert-info">You can only view files with the following file extensions: ' . implode(', ', $validExtensions) . '</div>';
-                }
-            } else {
-                echo '<div class="alert alert-info">The file ' . $_GET['file'] . ' does not exist.</div>';
             }
             ?>
         </div>
