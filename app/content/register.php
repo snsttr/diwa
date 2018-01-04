@@ -66,7 +66,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
             } else {
                 // login
                 if(login($_POST['username'], $_POST['password'])) {
-                    redirect('/?page=loggedin');
+                    redirect('?page=loggedin');
                 }
                 else {
                     redirect('/');
@@ -94,7 +94,7 @@ $countryList = array('Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'And
             }
             ?>
             <p class="text-center">
-            <form method="post" action="/?page=register">
+            <form method="post" action="?page=register">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" name="username" value="<?php echo (isset($_POST['username']) ? $_POST['username'] : ''); ?>" id="username">

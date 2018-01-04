@@ -67,15 +67,15 @@ catch(Exception $ex) {
                         ?>
                         <div class="pull-right btn-group">
                             <?php if ($reviewMode) { ?>
-                                <a href="/?page=downloads" class="btn btn-default"><?php echo icon('download-alt'); ?> Switch to Download Mode</a>
+                                <a href="?page=downloads" class="btn btn-default"><?php echo icon('download-alt'); ?> Switch to Download Mode</a>
                             <?php } else { ?>
-                                <a href="/?page=downloads&review=1" class="btn btn-default"><?php echo icon('eye-open'); ?> Switch to Review Mode</a>
+                                <a href="?page=downloads&review=1" class="btn btn-default"><?php echo icon('eye-open'); ?> Switch to Review Mode</a>
                             <?php } ?>
-                            <a href="/?page=upload" class="btn btn-primary"><?php echo icon('cloud-upload'); ?> Upload a File</a>
+                            <a href="?page=upload" class="btn btn-primary"><?php echo icon('cloud-upload'); ?> Upload a File</a>
                         </div>
                     <?php } else { ?>
 
-                        <a href="/?page=upload" class="btn btn-primary pull-right">Recommend a File</a>
+                        <a href="?page=upload" class="btn btn-primary pull-right">Recommend a File</a>
                         <?php
                     }
                 }?>
@@ -115,15 +115,15 @@ catch(Exception $ex) {
                     <div class="panel-body"><p><?php echo $download['description']; ?></p></div>
                     <div class="panel-footer text-center">
                         <div class="btn-group">
-                            <a href="/download.php?file=<?php echo $download['file']; ?>" class="btn btn-default"><?php echo icon('download-alt'); ?> <strong><?php echo $download['file']; ?></strong></a>
+                            <a href="download.php?file=<?php echo $download['file']; ?>" class="btn btn-default"><?php echo icon('download-alt'); ?> <strong><?php echo $download['file']; ?></strong></a>
                             <?php if($isAdmin) { ?>
-                                <a href="/?page=downloads<?php echo ($reviewMode ? '&review=1' : ''); ?>&delete=<?php echo $download['id']; ?>"class="btn btn-danger remove-file" title="Delete the file"><?php echo icon('remove'); ?> Delete</a>
+                                <a href="?page=downloads<?php echo ($reviewMode ? '&review=1' : ''); ?>&delete=<?php echo $download['id']; ?>"class="btn btn-danger remove-file" title="Delete the file"><?php echo icon('remove'); ?> Delete</a>
                                 <?php if ($reviewMode) { ?>
                                     <div class="btn-group">
                                         <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><?php echo icon('ok'); ?> Approve <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="/?page=downloads&review=1&approve=<?php echo $download['id']; ?>"><?php echo icon('user'); ?> To Users Only</a></li>
-                                            <li><a href="/?page=downloads&review=1&approve=<?php echo $download['id']; ?>&guests=1"><?php echo icon('ok'); ?> To Users & Guests</a></li>
+                                            <li><a href="?page=downloads&review=1&approve=<?php echo $download['id']; ?>"><?php echo icon('user'); ?> To Users Only</a></li>
+                                            <li><a href="?page=downloads&review=1&approve=<?php echo $download['id']; ?>&guests=1"><?php echo icon('ok'); ?> To Users & Guests</a></li>
                                         </ul>
                                     </div>
                                     <?php

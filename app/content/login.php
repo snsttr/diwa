@@ -6,7 +6,7 @@
                 try {
                     // login
                     if(login($_POST['login'], $_POST['password'])) {
-                        redirect('/?page=loggedin');
+                        redirect('?page=loggedin');
                     }
                     else {
                         echo '<div class="alert alert-danger">Wrong E-Mail-Address or Password</div>';

@@ -28,13 +28,13 @@ catch(Exception $ex) {
             <ul class="list-group">
                 <?php
                 if($path !== './') {
-                    echo '<li class="list-group-item">' . icon('folder-close') . ' <strong><a href="/?page=documentation&path=' . dirname($path) . '/">..</a></strong></li>';
+                    echo '<li class="list-group-item">' . icon('folder-close') . ' <strong><a href="?page=documentation&path=' . dirname($path) . '/">..</a></strong></li>';
                 }
                 $files = array();
                 // output directories
                 foreach ($globList as $item) {
                     if(is_dir($item)) {
-                        echo '<li class="list-group-item">' . icon('folder-close') . ' <strong><a href="/?page=documentation&path=' . $path . basename($item) . '/">' . basename($item) . '</a></strong></li>';
+                        echo '<li class="list-group-item">' . icon('folder-close') . ' <strong><a href="?page=documentation&path=' . $path . basename($item) . '/">' . basename($item) . '</a></strong></li>';
                     }
                     else {
                         $files[] = $item;
@@ -43,7 +43,7 @@ catch(Exception $ex) {
 
                 // output files
                 foreach ($files as $file) {
-                    echo '<li class="list-group-item">' . icon('file') . ' <strong><a href="/?page=documentation&path=' . $path .'&file=' . basename($file) . '">' . basename($file) . '</a></strong></li>';
+                    echo '<li class="list-group-item">' . icon('file') . ' <strong><a href="?page=documentation&path=' . $path .'&file=' . basename($file) . '">' . basename($file) . '</a></strong></li>';
                 }
                 ?>
             </ul>

@@ -24,10 +24,10 @@
                 <h2>What can I do now?</h2>
                 <p>Try to find out more about the possible attack Vectors shown above. Then just feel free to hack everything on this website you can find, e.g.:</p>
                 <ul>
-                    <li>Brute Force attack the Invitation Code in the <a href="/?page=register">Registration form</a></li>
-                    <li>Manipulate Path to <a href="/?page=documentation">Documentation</a> files to see "hidden" oder "protected" Content</li>
+                    <li>Brute Force attack the Invitation Code in the <a href="?page=register">Registration form</a></li>
+                    <li>Manipulate Path to <a href="?page=documentation">Documentation</a> files to see "hidden" oder "protected" Content</li>
                     <li>Use SQL Injection to override the Log-In check</li>
-                    <li>Send Spam through the <a href="/?page=contact">Contact Form</a></li>
+                    <li>Send Spam through the <a href="?page=contact">Contact Form</a></li>
                     <li>...</li>
                 </ul>
             <?php } else { ?>

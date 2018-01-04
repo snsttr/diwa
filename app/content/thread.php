@@ -80,7 +80,7 @@ $adminsOnly = (1 == $thread['admins_only']);
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1><?php echo ($adminsOnly ? icon('lock', 'This Thread is only viewable for admins') : ''); ?>Thread "<?php echo $thread['title']; ?>"<a href="/?page=board" class="btn btn-primary pull-right"><?php echo icon('list'); ?> Back to Board</a></h1>
+            <h1><?php echo ($adminsOnly ? icon('lock', 'This Thread is only viewable for admins') : ''); ?>Thread "<?php echo $thread['title']; ?>"<a href="?page=board" class="btn btn-primary pull-right"><?php echo icon('list'); ?> Back to Board</a></h1>
             <?php
             if(!empty($errors)) {
                 echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
@@ -94,7 +94,7 @@ $adminsOnly = (1 == $thread['admins_only']);
             while ($post = $resultPosts->fetchArray()) {
                 ?>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><a name="post-<?php echo $post['id']; ?>"></a><p>User: <strong><?php echo $post['username']; ?></strong> <?php echo ($_SESSION['user_id'] == $post['user_id'] ? '(<a href="/?page=editpost&id=' . $post['id'] . '">Edit</a>)' : '') ?><span class="pull-right"><?php echo $post['timestamp']; ?></span></p></div>
+                    <div class="panel-heading"><a name="post-<?php echo $post['id']; ?>"></a><p>User: <strong><?php echo $post['username']; ?></strong> <?php echo ($_SESSION['user_id'] == $post['user_id'] ? '(<a href="?page=editpost&id=' . $post['id'] . '">Edit</a>)' : '') ?><span class="pull-right"><?php echo $post['timestamp']; ?></span></p></div>
                     <div class="panel-body">
                         <p><?php echo nl2br($post['text']); ?></p>
                     </div>
@@ -105,7 +105,7 @@ $adminsOnly = (1 == $thread['admins_only']);
             <div class="panel panel-primary">
                 <div class="panel-heading"><strong>New Post</strong></div>
                 <div class="panel-body">
-                    <form action="/?page=thread&id=<?php echo $_GET['id']; ?>" method="post">
+                    <form action="?page=thread&id=<?php echo $_GET['id']; ?>" method="post">
                         <div class="form-group">
                             <textarea class="form-control" rows="5" name="post"></textarea>
                         </div>

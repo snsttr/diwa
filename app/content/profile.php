@@ -76,7 +76,7 @@ $countryList = array('Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'And
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h2><?php echo ($adminMode ? $userData['username'] . '\'s Profile <a href="/?page=users" class="btn btn-default pull-right">Back to Administration</a>' : 'Your Profile') ?></h2>
+            <h2><?php echo ($adminMode ? $userData['username'] . '\'s Profile <a href="?page=users" class="btn btn-default pull-right">Back to Administration</a>' : 'Your Profile') ?></h2>
             <?php
             if(!empty($errors)) {
                 echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
@@ -85,7 +85,7 @@ $countryList = array('Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'And
                 echo '<div class="alert alert-success">' . ($adminMode ? 'The' : 'Your') . ' profile was updated.</div>';
             }
             ?>
-            <form method="post" action="/?page=profile<?php echo ($adminMode ? '&user_id=' . $userId : '') ?>">
+            <form method="post" action="?page=profile<?php echo ($adminMode ? '&user_id=' . $userId : '') ?>">
                 <div class="form-group">
                     <label for="email">Email address:</label>
                     <input type="email" class="form-control" name="email" value="<?php echo $userData['email']; ?>" id="email">

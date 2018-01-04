@@ -8,7 +8,7 @@
             session_destroy();
 
             // redirect
-            redirect('/');
+            redirect('./');
             ?>
         </div>
     </div>

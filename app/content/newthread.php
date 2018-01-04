@@ -49,7 +49,7 @@ catch(Exception $ex) {
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1>New Thread<a href="/?page=board" class="btn btn-primary pull-right"><?php echo icon('list'); ?> Back to Board</a></h1>
+            <h1>New Thread<a href="?page=board" class="btn btn-primary pull-right"><?php echo icon('list'); ?> Back to Board</a></h1>
             <div class="panel panel-primary">
                 <div class="panel-heading"><strong>New Post</strong></div>
                 <div class="panel-body">
@@ -58,7 +58,7 @@ catch(Exception $ex) {
                         echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
                     }
                     ?>
-                    <form action="/?page=newthread" method="post">
+                    <form action="?page=newthread" method="post">
                         <div class="form-group">
                             <label for="title">Title:</label>
                             <input type="text" class="form-control" name="title" value="<?php echo isset($_POST['title']) ? $_POST['title'] : ''; ?>" id="title">

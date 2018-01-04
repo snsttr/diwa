@@ -34,7 +34,7 @@ catch(Exception $ex) {
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1>Board<a href="/?page=newthread" class="btn btn-primary pull-right"><?php echo icon('plus'); ?> New Thread</a></h1>
+            <h1>Board<a href="?page=newthread" class="btn btn-primary pull-right"><?php echo icon('plus'); ?> New Thread</a></h1>
 
             <?php if($thread = $result->fetchArray()) { ?>
                 <table class="table">
@@ -52,7 +52,7 @@ catch(Exception $ex) {
                         $adminRestricted = ($adminsOnly && 0 == $_SESSION['user']['is_admin']);
                         ?>
                         <tr class="<?php echo ($adminsOnly ? '' : 'clickable-row'); ?>">
-                            <td><?php echo ($adminsOnly ? icon('lock') : icon('user')) . ' <strong>' . ($adminRestricted ? '' . $thread['title'] : '<a href="/?page=thread&id=' . $thread['id'] . '">' . $thread['title'] . '</a>') . '</strong>'; ?></td>
+                            <td><?php echo ($adminsOnly ? icon('lock') : icon('user')) . ' <strong>' . ($adminRestricted ? '' . $thread['title'] : '<a href="?page=thread&id=' . $thread['id'] . '">' . $thread['title'] . '</a>') . '</strong>'; ?></td>
                             <td><?php echo $thread['count_post']; ?></td>
                             <td><?php echo $thread['last_post']; ?></td>
                         </tr>

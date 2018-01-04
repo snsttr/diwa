@@ -1,7 +1,7 @@
 <?php
 
 function menuEntry($pTitle, $pPage = null) {
-    return '<li' . ((!isset($_GET['page']) && null === $pPage) || (isset($_GET['page']) && $_GET['page'] === $pPage) ? ' class="active"' : '') . '><a href="' . (null === $pPage ? '/' : '/?page=' . $pPage) . '">' . $pTitle . '</a></li>';
+    return '<li' . ((!isset($_GET['page']) && null === $pPage) || (isset($_GET['page']) && $_GET['page'] === $pPage) ? ' class="active"' : '') . '><a href="' . (null === $pPage ? './' : '?page=' . $pPage) . '">' . $pTitle . '</a></li>';
 }
 
 ?>
@@ -36,7 +36,7 @@ function menuEntry($pTitle, $pPage = null) {
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">DIWA</a>
+            <a class="navbar-brand" href="./">DIWA</a>
         </div>
         <ul class="nav navbar-nav">
             <?php echo menuEntry('Home'); ?>
@@ -72,7 +72,7 @@ function menuEntry($pTitle, $pPage = null) {
                 <div class="form-group"><input type="text" name="login" placeholder="E-Mail-Address" class="form-control"></div>
                 <div class="form-group"><input type="password" name="password" placeholder="Password" class="form-control"></div>
                 <button type="submit" class="btn btn-success">Sign in</button>
-                <a href="/?page=register" class="btn btn-primary">Register</a>
+                <a href="?page=register" class="btn btn-primary">Register</a>
             </form>
         <?php } ?>
     </div>

@@ -35,11 +35,11 @@ if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
         }
         elseif($sent !== count($_POST['recipients'])) {
             // redirect with message
-            redirect('/?page=messagesent&message=' . urlencode('Your message could only be sent to ' . $sent . ' of the ' . count($_POST['recipients']) . ' recipients'));
+            redirect('?page=messagesent&message=' . urlencode('Your message could only be sent to ' . $sent . ' of the ' . count($_POST['recipients']) . ' recipients'));
         }
         else {
             // redirect
-            redirect('/?page=messagesent');
+            redirect('?page=messagesent');
         }
     }
 }
@@ -62,7 +62,7 @@ catch(Exception $ex) {
                 echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
             }
             ?>
-            <form action="/?page=contact" method="post">
+            <form action="?page=contact" method="post">
                 <div class="form-group">
                     <label for="name">Your Name:</label>
                     <input type="text" class="form-control" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : ''); ?>" id="name">

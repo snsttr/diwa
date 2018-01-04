@@ -61,7 +61,7 @@ $isAdmin = (isset($_SESSION['user']['is_admin']) && 1 === $_SESSION['user']['is_
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1><?php echo ($isAdmin ? 'Upload a File' : 'Recommend a File'); ?><a href="/?page=downloads" class="btn btn-primary pull-right"><?php echo icon('download-alt'); ?> Back to Downloads</a></h1>
+            <h1><?php echo ($isAdmin ? 'Upload a File' : 'Recommend a File'); ?><a href="?page=downloads" class="btn btn-primary pull-right"><?php echo icon('download-alt'); ?> Back to Downloads</a></h1>
             <?php
             if(!$isAdmin) {
                 echo '<div class="alert alert-warning">An administrator has to review your download before it is listed on the downloads page.</div>';
@@ -77,7 +77,7 @@ $isAdmin = (isset($_SESSION['user']['is_admin']) && 1 === $_SESSION['user']['is_
                 echo '<div class="alert alert-success">Your Upload has been saved ' . ($isAdmin ? ' and published' : 'and soon will be reviewed by an Admin') . '.</div>';
             }
             ?>
-            <form action="/?page=upload" method="post" enctype="multipart/form-data">
+            <form action="?page=upload" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
 
                 <div class="form-group">
