@@ -4,7 +4,7 @@
  * @param int $pCode
  * @param string $pMessage
  */
-function error($pCode = 500, $pMessage = 'An Error occured.') {
+function error($pCode = 500, $pMessage = 'An unknown Error occured.') {
     if(!headers_sent()) {
         $responseCodes = array(
             100 => 'Continue',
@@ -65,7 +65,7 @@ function error($pCode = 500, $pMessage = 'An Error occured.') {
 
         header('HTTP/1.1 500 ' . $responseCodes[$pCode]);
     }
-    echo '<h1>Error ' . $pCode . '</h1>';
+    echo '<h1>DIWA Error ' . $pCode . ' (' . $responseCodes[$pCode] . ')</h1>';
     echo '<p>' . $pMessage . '</p>';
     exit;
 }
