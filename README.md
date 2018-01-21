@@ -9,7 +9,6 @@ This is just a short description. For full Documentation see [docs](docs) Direct
 2. *Optional:* Install composer dependencies
 
        cd /<Path to DIWA>/
-       cd app
        composer install
 
 3. *Optional:* Change the config Settings in `app/config.php` 
