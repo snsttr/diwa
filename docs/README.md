@@ -26,4 +26,4 @@ Feel free to fork DIWA or open pull requests on github: https://github.com/snstt
 Please use our github Project to report Issues: https://github.com/snsttr/diwa/issues/
 
 ## License
-See [LICENSE.md](LICENSE.md)
+See [LICENSE.md](../LICENSE.md)
