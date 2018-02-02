@@ -16,22 +16,18 @@ try {
         }
 
         // check if post has enough chars
-        if(!isset($_POST['post']) || 10 > strlen($_POST['post'])) {
-            $errors[] = 'Your post has to be at least 10 Characters long.';
+        if(!isset($_POST['post']) || 3 > strlen($_POST['post'])) {
+            $errors[] = 'Your post has to be at least 3 Characters long.';
         }
 
         if(empty($errors)) {
             // save thread
-            $sql = 'INSERT INTO ' . $config['database']['prefix'] . 'threads (title, admins_only) VALUES (\'' . $_POST['title'] .'\', ' . (isset($_POST['admins_only']) && '1' === $_POST['admins_only'] ? 1 : 0) . ')';
-            $resultSaveThread = $db->exec($sql);
-            if (!$resultSaveThread) {
+            $threadId = $model->createThread($_POST['title'], (isset($_POST['admins_only']) && '1' === $_POST['admins_only']));
+            if (false === $threadId) {
                 $errors[] = 'Your new thread could not be saved';
             } else {
-                $threadId = $db->lastInsertRowID();
                 // save post
-                $sql = 'INSERT INTO ' . $config['database']['prefix'] . 'posts (thread_id, user_id, text) VALUES (' . $threadId . ', ' . $_SESSION['user_id'] . ', \'' . $_POST['post'] . '\')';
-                $resultSavePost = $db->exec($sql);
-                if (!$resultSavePost) {
+                if (!$model->createPost($threadId, $_SESSION['user_id'], $_POST['post'])) {
                     $errors[] = 'Your post could not be saved';
                 } else {
                     // on success: redirect

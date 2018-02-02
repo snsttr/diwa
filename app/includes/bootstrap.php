@@ -2,7 +2,7 @@
 
 // load config
 try {
-    require __DIR__ . '/../config.php';
+    require ROOT_PATH . '/config.php';
     if(false === $config || !is_array($config)) {
         throw new Exception('the $config-variable seems not to be available. Please check your config.php.');
     }
@@ -16,36 +16,58 @@ error_reporting(isset($config['php']['error_reporting']) ? $config['php']['error
 
 // include function library
 try {
-    require_once __DIR__ . '/functions.php';
+    require_once SYSTEM_PATH . '/functions.php';
 }
 catch(Exception $ex) {
     die('Error: could not include "functions.php"');
 }
 
-// Is sqlite3 Available?
-if(!class_exists('SQLite3')) {
-    error(500, 'Make sure that you have loaded the sqlite3 extension for PHP. See https://secure.php.net/manual/en/sqlite3.installation.php');
-}
-
 // establish DB Connection
+$db = null;
 try {
-    $db = new SQLite3(__DIR__ . '/../../database/' . $config['database']['database']);
-    $db->enableExceptions(true);
+    if (extension_loaded('PDO') && extension_loaded('pdo_' . $config['database']['driver'])) {
+        if('sqlite' === $config['database']['driver']) {
+            $db = new PDO($config['database']['driver'] . ':' . $config['database']['database'],
+                null,
+                null,
+                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        }
+        elseif(in_array($config['database']['driver'], array('mysql', 'pgsql'), true)) {
+            $db = new PDO($config['database']['driver'] . ':host=' . $config['database']['server'] . ';dbname=' . $config['database']['database'],
+                $config['database']['username'],
+                $config['database']['password'],
+                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        }
+    }
 }
 catch(Exception $ex) {
-    error(500, 'The Connection to the Database could not be established: ' . $ex->getMessage());
+    error(500, 'The Database-Connection could not be established (Driver: ' . $config['database']['driver'] . ')', $ex);
+}
+// connection available?
+if(null === $db) {
+    error(500, 'The Database-Connection could not be established (Driver: ' . $config['database']['driver'] . ')');
+}
+
+// include Model
+try {
+    require_once SYSTEM_PATH . '/model.php';
+    $model = new Model($db, $config['database']['prefix']);
+}
+catch(Exception $ex) {
+    die('Error: could not include "model.php"');
 }
 
 // include Session Management
 try {
-    require_once __DIR__ . '/session.php';
+    require_once SYSTEM_PATH . '/session.php';
 }
 catch(Exception $ex) {
     error(500, 'The session lib could not be found: ' . $ex->getMessage());
 }
 
 // include parsedown extension if available (optional)
-$parsedownInclude = __DIR__ . '/../vendor/erusev/parsedown/Parsedown.php';
+$parsedownInclude = ROOT_PATH . '/vendor/erusev/parsedown/Parsedown.php';
 if(file_exists($parsedownInclude)) {
     include $parsedownInclude;
 }
+

@@ -4,7 +4,7 @@
  * @param int $pCode
  * @param string $pMessage
  */
-function error($pCode = 500, $pMessage = 'An unknown Error occured.') {
+function error($pCode = 500, $pMessage = 'An unknown Error occured.', $pException = null) {
     if(!headers_sent()) {
         $responseCodes = array(
             100 => 'Continue',
@@ -67,6 +67,10 @@ function error($pCode = 500, $pMessage = 'An unknown Error occured.') {
     }
     echo '<h1>DIWA Error ' . $pCode . ' (' . $responseCodes[$pCode] . ')</h1>';
     echo '<p>' . $pMessage . '</p>';
+    if(null !== $pException) {
+        // TODO Make prettier
+        var_dump($pException);
+    }
     exit;
 }
 
@@ -144,29 +148,4 @@ function getUploadError($pError) {
  */
 function icon($pIcon, $pTitle = null) {
     return '<span class="glyphicon glyphicon-' . $pIcon . '"' . (null === $pTitle ? '' : ' title="' . $pTitle . '"') . '></span>';
-}
-
-/**
- * Perform a user login
- *
- * @param $pEmail
- * @param $pPassword
- * @return bool
- */
-function login($pEmail, $pPassword) {
-    global $config, $db, $_SESSION;
-    $query = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE email = \'' . $pEmail . '\' AND password = \'' . hash($config['system']['hashing_algorithm'], $pPassword) . '\';';
-    $result = $db->query($query);
-
-    // found a matching user?
-    if($resultRow = $result->fetchArray()) {
-        // delete session data
-        session_unset();
-
-        // save user to session
-        $_SESSION['user_id'] = $resultRow['id'];
-
-        return true;
-    }
-    return false;
 }

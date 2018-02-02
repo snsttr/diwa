@@ -28,7 +28,7 @@ function menuEntry($pTitle, $pPage = null) {
         }
     </style>
 </head>
-<body class="<?php echo $_GET['page']; ?>">
+<body class="<?php echo isset($_GET['page']) ? $_GET['page'] : 'index'; ?>">
 <!--[if lte IE 9]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
 <![endif]-->
@@ -55,7 +55,7 @@ function menuEntry($pTitle, $pPage = null) {
                     <ul class="dropdown-menu">
                         <?php echo menuEntry('Profile', 'profile'); ?>
                         <?php
-                        if(1 === $_SESSION['user']['is_admin']) {
+                        if(1 == $_SESSION['user']['is_admin']) {
                             echo '<li role="separator" class="divider"></li>';
                             echo '<li class="dropdown-header">Administration</li>';
                             echo menuEntry('Users', 'users');
@@ -69,7 +69,7 @@ function menuEntry($pTitle, $pPage = null) {
             </ul>
         <?php } else { ?>
             <form class="navbar-form navbar-right" role="form" method="post" action="?page=login">
-                <div class="form-group"><input type="text" name="login" placeholder="E-Mail-Address" class="form-control"></div>
+                <div class="form-group"><input type="text" name="email" placeholder="E-Mail-Address" class="form-control"></div>
                 <div class="form-group"><input type="password" name="password" placeholder="Password" class="form-control"></div>
                 <button type="submit" class="btn btn-success">Sign in</button>
                 <a href="?page=register" class="btn btn-primary">Register</a>

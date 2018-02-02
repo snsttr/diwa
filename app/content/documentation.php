@@ -2,7 +2,7 @@
 
 // get content of directory
 try {
-    $rootPath = __DIR__ . '/../../docs/';
+    $rootPath = ROOT_PATH . '/../docs/';
     $path = './';
     if (isset($_GET['path']) && !empty($_GET['path']) && file_exists($rootPath . $_GET['path'])) {
         $path = $_GET['path'];

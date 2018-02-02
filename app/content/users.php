@@ -1,6 +1,6 @@
 <?php
 // make sure only registered users can enter this site
-if(!isset($_SESSION['user_id']) || 1 !== $_SESSION['user']['is_admin']) {
+if(!isset($_SESSION['user_id']) || 1 != $_SESSION['user']['is_admin']) {
     echo getForbiddenMessage('This Site is for Administrators only.');
     return;
 }
@@ -11,9 +11,7 @@ $deleted = null;
 try {
     if (isset($_GET['remove'])) {
         if ($_GET['remove'] !== $_SESSION['user_id']) {
-            $sql = 'DELETE FROM ' . $config['database']['prefix'] . 'users WHERE id = ' . $_GET['remove'];
-            $result = $db->exec($sql);
-            $deleted = $result;
+            $deleted = $model->removeUser($_GET['remove']);
         } else {
             $deleted = false;
         }
@@ -25,8 +23,7 @@ catch(Exception $ex) {
 
 // get all users
 try {
-    $sql = 'SELECT id, username, email, country, is_admin FROM ' . $config['database']['prefix'] . 'users';
-    $result = $db->query($sql);
+    $result = $model->getAllUsers();
 }
 catch(Exception $ex) {
     error(500, 'Could not query Users from Database: ' . $ex->getMessage());
@@ -47,7 +44,7 @@ catch(Exception $ex) {
             }
             ?>
 
-            <?php if($user = $result->fetchArray()) { ?>
+            <?php if(false !== $result && 0 < count($result)) { ?>
                 <table class="table">
                     <thead>
                     <tr>
@@ -59,19 +56,19 @@ catch(Exception $ex) {
                         <th>Actions</th>
                     </tr>
                     </thead>
-                    <?php do { ?>
+                    <?php foreach ($result as $user) { ?>
                         <tr>
                             <td><?php echo $user['id']; ?></td>
                             <td><?php echo $user['username']; ?></td>
                             <td><?php echo $user['email']; ?></td>
                             <td><?php echo $user['country']; ?></td>
-                            <td><?php echo (1 === $user['is_admin'] ? icon('ok') : ''); ?></td>
+                            <td><?php echo (1 == $user['is_admin'] ? icon('ok') : ''); ?></td>
                             <td>
                                 <a href="?page=profile&user_id=<?php echo $user['id']; ?>" class="btn btn-default" title="Edit User"><?php echo icon('edit'); ?> Edit</a>
                                 <a href="?page=users&remove=<?php echo $user['id']; ?>" class="btn btn-default remove-user" title="Remove User"><?php echo icon('remove'); ?> Remove</a>
                             </td>
                         </tr>
-                    <?php } while (($user = $result->fetchArray())); ?>
+                    <?php } ?>
                 </table>
             <?php } ?>
 

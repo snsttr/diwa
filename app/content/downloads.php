@@ -1,8 +1,8 @@
 <?php
 
 $loggedIn = isLoggedIn();
-$isAdmin = (isset($_SESSION['user']['is_admin']) && 1 === $_SESSION['user']['is_admin']);
-$reviewMode = (isset($_GET['review']) && '1' === $_GET['review']);
+$isAdmin = (isset($_SESSION['user']['is_admin']) && 1 == $_SESSION['user']['is_admin']);
+$reviewMode = (isset($_GET['review']) && '1' == $_GET['review']);
 
 // process review actions (approve / delete)
 try {
@@ -13,9 +13,8 @@ try {
         if(isset($_GET['guests']) && '1' === $_GET['guests']) {
             $allowGuests = ', allow_guests = 1';
         }
-        $sql = 'UPDATE ' . $config['database']['prefix'] . 'downloads SET approved = 1' . $allowGuests . ' WHERE id = ' . $_GET['approve'];
-        $resultApprove = $db->exec($sql);
-        if($resultApprove) {
+        ;
+        if($model->approveDownload($_GET['approve'], (isset($pAllowGuests) && '1' === $pAllowGuests))) {
             // redirect
             redirect('?page=downloads&review=1&approved=1');
         }
@@ -25,9 +24,7 @@ try {
     }
     elseif(isset($_GET['delete']) && !empty($_GET['delete'])) {
         // delete from DB
-        $sql = 'DELETE FROM ' . $config['database']['prefix'] . 'downloads WHERE id = ' . $_GET['delete'];
-        $resultDelete = $db->exec($sql);
-        if($resultDelete) {
+        if($model->removeDownload($_GET['delete'])) {
             // redirect
             redirect('?page=downloads' . ($reviewMode ? '&review=1' : '') . '&deleted=1');
         }
@@ -42,14 +39,7 @@ catch(Exception $ex) {
 
 // show downloads
 try {
-    $sql = '
-    SELECT
-        *
-    FROM
-      ' . $config['database']['prefix'] . 'downloads
-    WHERE
-      approved = ' . ($reviewMode ? 0 : 1);
-    $result = $db->query($sql);
+    $result = $model->getDownloads(($reviewMode ? 0 : 1));
 }
 catch(Exception $ex) {
     error(500, 'Could not query downloads from Database: ' . $ex->getMessage());
@@ -103,15 +93,15 @@ catch(Exception $ex) {
     </div>
     <?php
     $count = 0;
-    while ($download = $result->fetchArray()) {
-        if(1 === $download['allow_guests'] || $loggedIn) {
+    foreach ($result as $download) {
+        if(1 == $download['allow_guests'] || $loggedIn) {
             if($count === 0) {
                 echo '<div class="row">';
             }
             ?>
             <div class="col-lg-6">
                 <div class="panel panel-primary">
-                    <div class="panel-heading"><?php echo (1 === $download['allow_guests'] ? '' : icon('user', 'User only Download')); ?> <strong><?php echo $download['title']; ?></strong></div>
+                    <div class="panel-heading"><?php echo (1 == $download['allow_guests'] ? '' : icon('user', 'User only Download')); ?> <strong><?php echo $download['title']; ?></strong></div>
                     <div class="panel-body"><p><?php echo $download['description']; ?></p></div>
                     <div class="panel-footer text-center">
                         <div class="btn-group">

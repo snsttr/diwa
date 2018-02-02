@@ -6,6 +6,8 @@ if(!isset($_SESSION['user_id'])) {
     return;
 }
 
+$isAdmin = (isset($_SESSION['user']['is_admin']) && 1 == $_SESSION['user']['is_admin']);
+
 // process post & upload
 try {
     // check data
@@ -17,8 +19,8 @@ try {
         }
 
         // check if post has enough chars
-        if (!isset($_POST['description']) || 10 > strlen($_POST['description'])) {
-            $errors[] = 'Your description has to be at least 10 Characters long.';
+        if (!isset($_POST['description']) || 3 > strlen($_POST['description'])) {
+            $errors[] = 'Your description has to be at least 3 Characters long.';
         }
 
         if(!isset($_FILES['file']['name']) || empty($_FILES['file']['name'])) {
@@ -27,19 +29,14 @@ try {
 
         if(empty($errors)) {
             // try to upload the file
-            $uploaddir = __DIR__ . '/../files/';
+            $uploaddir = ROOT_PATH . '/files/';
             $uploadfile = $uploaddir . basename($_FILES['file']['name']);
 
             if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
                 $errors[] = 'The file could not be uploaded: ' . getUploadError($_FILES['file']['error']);
             } else {
-                // successfully uploaded and moved ...
-                // ... so save file to database
                 $allowGuests = (isset($_POST['guests']) && '1' === $_POST['guests']);
-                $approved = (isset($_SESSION['user']['is_admin']) && 1 === $_SESSION['user']['is_admin']);
-                $sql = 'INSERT INTO ' . $config['database']['prefix'] . 'downloads (allow_guests, approved, title, description, file) VALUES (' . ($allowGuests ? 1 : 0) . ', ' . ($approved ? 1 : 0) . ', \'' . $_POST['title'] . '\', \'' . $_POST['description'] . '\', \'' . basename($_FILES['file']['name']) . '\')';
-                $saveResult = $db->exec($sql);
-                if(!$saveResult) {
+                if(!$model->createDownload($allowGuests, $isAdmin, $_POST['title'], $_POST['description'], basename($_FILES['file']['name']))) {
                     $errors[] = 'The file could not be written to the database.';
                     // delete file
                     @unlink($uploadfile);
@@ -55,7 +52,6 @@ catch(Exception $ex) {
     error(500, 'Could not save Upload: ' . $ex->getMessage());
 }
 
-$isAdmin = (isset($_SESSION['user']['is_admin']) && 1 === $_SESSION['user']['is_admin']);
 ?>
 
 <div class="container">

@@ -5,13 +5,12 @@ session_start();
 // get user information
 try {
     if(isset($_SESSION['user_id'])) {
-        $query = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE id = ' . $_SESSION['user_id'];
-        $result = $db->query($query);
+        $result = $model->getUserData($_SESSION['user_id']);
 
         // found a matching user?
-        if ($resultRow = $result->fetchArray()) {
+        if (false !== $result && 0 < count($result)) {
             // save user to session
-            $_SESSION['user'] = $resultRow;
+            $_SESSION['user'] = $result[0];
         } else {
             // delete all session data
             session_unset();

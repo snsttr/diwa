@@ -18,8 +18,8 @@ if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
     }
 
     // check if message has enough chars
-    if (!isset($_POST['message']) || 10 > strlen($_POST['message'])) {
-        $errors[] = 'Your message has to be at least 10 Characters long.';
+    if (!isset($_POST['message']) || 3 > strlen($_POST['message'])) {
+        $errors[] = 'Your message has to be at least 3 Characters long.';
     }
 
     if(empty($errors)) {
@@ -46,11 +46,13 @@ if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
 
 // get all admin Usernames & E-Mail-Adresses
 try {
-    $sql = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE is_admin = 1 ORDER BY username';
-    $resultAdmins = $db->query($sql);
+    $resultAdmins = $model->getAllAdmins();
+    if(false === $resultAdmins || 0 === count($resultAdmins)) {
+        error(500, '');
+    }
 }
 catch(Exception $ex) {
-    error(500, 'Could not query admins from Database: ' . $ex->getMessage());
+    error(500, 'Could not query admins from Database', $ex);
 }
 ?>
 <div class="container">
@@ -78,10 +80,10 @@ catch(Exception $ex) {
                         <button type="button" class="btn btn-default unselect-all-admins">Unselect all</button>
                     </div>
                     <?php
-                    while ($admins = $resultAdmins->fetchArray()) {
+                    foreach ($resultAdmins as $admin) {
                         ?>
                         <div  class="checkbox">
-                            <label><input type="checkbox" name="recipients[]" value="<?php echo $admins['email']; ?>" class="select-admin"<?php echo (isset($_POST['recipients']) && in_array($admins['email'], $_POST['recipients']) ? ' checked="checked"' : '') ?>> <?php echo $admins['username']; ?></label>
+                            <label><input type="checkbox" name="recipients[]" value="<?php echo $admin['email']; ?>" class="select-admin"<?php echo (isset($_POST['recipients']) && in_array($admin['email'], $_POST['recipients']) ? ' checked="checked"' : '') ?>> <?php echo $admin['username']; ?></label>
                         </div>
                         <?php
                     }

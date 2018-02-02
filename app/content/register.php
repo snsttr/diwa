@@ -15,9 +15,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
     else {
         // find out if email-address already is in use
         try {
-            $sql = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE email = \'' . $_POST['email'] . '\'';
-            $resultUsername = $db->query($sql);
-            if($resultUsername->fetchArray()) {
+            if($model->isUserEmailInUse($_POST['email'])) {
                 $errors[] = 'The E-Mail-Address "' . $_POST['email'] . '" already is in use. Please choose a different one.';
             }
         }
@@ -27,9 +25,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
 
         // find out if username already is in use
         try {
-            $sql = 'SELECT * FROM ' . $config['database']['prefix'] . 'users WHERE username = \'' . $_POST['username'] . '\'';
-            $resultUsername = $db->query($sql);
-            if($resultUsername->fetchArray()) {
+            if($model->isUsernameInUse($_POST['username'])) {
                 $errors[] = 'The Username "' . $_POST['username'] . '" already is in use. Please choose a different one.';
             }
         }
@@ -59,17 +55,22 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
 
     if(empty($errors)) {
         try {
-            $sql = 'INSERT INTO ' . $config['database']['prefix'] . 'users (username, password, email, country, is_admin) VALUES (\'' . $_POST['username'] . '\', \'' . hash($config['system']['hashing_algorithm'], $_POST['password']) . '\', \'' . $_POST['email'] . '\', \'' . $_POST['country'] . '\', 0)';
-            $saveResult = $db->exec($sql);
-            if(!$saveResult) {
+            if(!$model->createUser($_POST['username'], $_POST['password'], $_POST['email'], $_POST['country'], $config['system']['hashing_algorithm'])) {
                 $errors[] = 'Your Registration was not successfull.';
             } else {
                 // login
-                if(login($_POST['username'], $_POST['password'])) {
+                if($result = $model->userSignIn($_POST['email'], $_POST['password'], $config['system']['hashing_algorithm'])) {
+                    if(false !== $result && 0 < count($result)) {
+                        // delete session data
+                        session_unset();
+
+                        // save user to session
+                        $_SESSION['user_id'] = $result[0]['id'];
+                    }
                     redirect('?page=loggedin');
                 }
                 else {
-                    redirect('/');
+                    echo '<div class="alert alert-danger">Wrong E-Mail-Address or Password</div>';
                 }
             }
         }

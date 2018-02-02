@@ -8,23 +8,7 @@ if(!isset($_SESSION['user_id'])) {
 
 // get threads
 try {
-    $sql = '
-        SELECT
-          t.id AS id,
-          t.title AS title,
-          t.admins_only AS admins_only,
-          MAX(p.timestamp) AS last_post,
-          COUNT(*) AS count_post
-        FROM
-          ' . $config['database']['prefix'] . 'threads t,
-          ' . $config['database']['prefix'] . 'posts p
-        WHERE
-          p.thread_id = t.id
-        GROUP BY
-          t.id
-        ORDER BY
-          last_post DESC;';
-    $result = $db->query($sql);
+    $result = $model->getAllThreads();
 }
 catch(Exception $ex) {
     error(500, 'Could not query threads from Database: ' . $ex->getMessage());
@@ -36,7 +20,7 @@ catch(Exception $ex) {
         <div class="col-lg-12">
             <h1>Board<a href="?page=newthread" class="btn btn-primary pull-right"><?php echo icon('plus'); ?> New Thread</a></h1>
 
-            <?php if($thread = $result->fetchArray()) { ?>
+            <?php if(false !== $result && 0 < count($result)) { ?>
                 <table class="table">
                     <thead>
                     <tr>
@@ -47,7 +31,7 @@ catch(Exception $ex) {
                     </thead>
                     <tbody>
                     <?php
-                    do {
+                    foreach($result as $thread) {
                         $adminsOnly = (1 == $thread['admins_only']);
                         $adminRestricted = ($adminsOnly && 0 == $_SESSION['user']['is_admin']);
                         ?>
@@ -57,7 +41,7 @@ catch(Exception $ex) {
                             <td><?php echo $thread['last_post']; ?></td>
                         </tr>
                         <?php
-                    } while ($thread = $result->fetchArray());
+                    }
                     ?>
                     </tbody>
                 </table>

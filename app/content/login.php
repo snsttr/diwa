@@ -2,10 +2,17 @@
     <div class="row">
         <div class="col-lg-12">
             <?php
-            if(isset($_POST['login']) && isset($_POST['password'])) {
+            if(isset($_POST['email']) && isset($_POST['password'])) {
                 try {
                     // login
-                    if(login($_POST['login'], $_POST['password'])) {
+                    if($result = $model->userSignIn($_POST['email'], $_POST['password'], $config['system']['hashing_algorithm'])) {
+                        if(false !== $result && 0 < count($result)) {
+                            // delete session data
+                            session_unset();
+
+                            // save user to session
+                            $_SESSION['user_id'] = $result[0]['id'];
+                        }
                         redirect('?page=loggedin');
                     }
                     else {

@@ -8,18 +8,11 @@ if(!isset($_SESSION['user_id'])) {
 
 // get post data
 try {
-    $sql = '
-        SELECT
-          *
-        FROM
-          ' . $config['database']['prefix'] . 'posts
-        WHERE
-          id = ' . $_GET['id'] . '
-    ';
-    $result = $db->query($sql);
-    if(!$post = $result->fetchArray()) {
+    $result = $model->getPost($_GET['id']);
+    if(!$result) {
         redirect('?page=board');
     }
+    $post = $result[0];
 }
 catch(Exception $ex) {
     error(500, 'Could not query given Post from Database: ' . $ex->getMessage());
@@ -29,13 +22,11 @@ catch(Exception $ex) {
 try {
     $errors = array();
     if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
-        if(!isset($_POST['post']) || 10 > strlen($_POST['post'])) {
-            $errors[] = 'Your post has to be at least 10 Characters long.';
+        if(!isset($_POST['post']) || 3 > strlen($_POST['post'])) {
+            $errors[] = 'Your post has to be at least 3 Characters long.';
         }
         else {
-            $sql = 'UPDATE ' . $config['database']['prefix'] . 'posts SET text = \'' . $_POST['post'] . '\' WHERE id = ' . $_GET['id'];
-            $resultSave = $db->exec($sql);
-            if (!$resultSave) {
+            if (!$model->editPost($_GET['id'], $_POST['post'])) {
                 $errors[] = 'Your post could not be edited';
             } else {
                 // on success: redirect
