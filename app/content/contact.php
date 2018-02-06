@@ -23,17 +23,29 @@ if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
     }
 
     if(empty($errors)) {
+        $useMailFunction = (isset($config['site']['use_mail_function']) && $config['site']['use_mail_function']);
         $sent = 0;
         // send Mails
         foreach ($_POST['recipients'] as $recipient) {
-            if(@mail(trim($recipient), 'New Message from DIWA', $_POST['message'], 'From: ' .  $_POST['email'])) {
+            // save mails to mail.log
+            if(@file_put_contents(
+                ROOT_PATH . '/mail.log',
+                '[=== ' . date('Y-m-d H:i:s') . ' ===]' . PHP_EOL . 'TO: ' . trim($recipient) . PHP_EOL . 'FROM: ' . $_POST['name'] . ' <' . $_POST['email'] . '>' . PHP_EOL . 'MESSAGE:' . PHP_EOL . $_POST['message'] . PHP_EOL . PHP_EOL,
+                FILE_APPEND)) {
                 $sent++;
             }
+            // send mails if configured
+            if($useMailFunction) {
+                // send mail with mail-function
+                if (@mail(trim($recipient), 'New Message from DIWA', $_POST['message'], 'From: ' . $_POST['name'] . ' <' . $_POST['email'] . '>')) {
+                    $sent++;
+                }
+            }
         }
-        if($sent === 0) {
+        if($useMailFunction && $sent === 0) {
             $errors[] = 'Your message could not be send to any of your recipients';
         }
-        elseif($sent !== count($_POST['recipients'])) {
+        elseif($useMailFunction && $sent !== count($_POST['recipients'])) {
             // redirect with message
             redirect('?page=messagesent&message=' . urlencode('Your message could only be sent to ' . $sent . ' of the ' . count($_POST['recipients']) . ' recipients'));
         }
