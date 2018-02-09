@@ -2,13 +2,9 @@
 
 define('ROOT_PATH', __DIR__);
 define('SYSTEM_PATH', ROOT_PATH . '/includes');
+define('INSTALLATION_PATH', SYSTEM_PATH . '/installation');
 define('CONTENT_PATH', ROOT_PATH . '/content');
 define('LAYOUT_PATH', ROOT_PATH . '/layout');
-
-// redirect to setup?
-if(!file_exists(ROOT_PATH . '/config.php')) {
-    // TODO: Redirect to install.php
-}
 
 // bootstrap DIWA
 require_once SYSTEM_PATH . '/bootstrap.php';
@@ -24,7 +20,7 @@ if(isset($_GET['page'])) {
     $content = $_GET['page'];
 }
 else {
-    $content = 'index';
+    $content = 'home';
 }
 
 $contentFile = CONTENT_PATH . '/' . $content . '.php';
