@@ -55,6 +55,5 @@ else {
 // include footer
 require_once LAYOUT_PATH . '/footer.php';
 
-// cleanup: Send content & close DB
+// Send content
 ob_end_flush();
-// TODO: @$db->close();
