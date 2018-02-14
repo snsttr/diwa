@@ -30,6 +30,17 @@ catch(Exception $ex) {
     die('The functions.php could not be loaded: ' . $ex->getMessage());
 }
 
+// are we running on heroku and is cleardb available?
+if(false !== getenv('CLEARDB_DATABASE_URL')) {
+    // instead of using database settings from config.php, use CLEARDB
+    $url = parse_url(false !== getenv('CLEARDB_DATABASE_URL'));
+    $config['database']['driver']   = 'mysql';
+    $config['database']['host']     = $url['host'];
+    $config['database']['username'] = $url['user'];
+    $config['database']['password'] = $url['pass'];
+    $config['database']['database'] = substr($url['path'], 1);
+}
+
 // establish DB Connection
 // currently only sqlite & mysql are supported
 $db = null;
