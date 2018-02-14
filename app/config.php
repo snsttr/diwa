@@ -17,8 +17,8 @@ $config['site']['use_mail_function']        = false;        // false: saves all 
 // HTTP BASIC AUTH Settings
 // ============================
 // Uncomment the following two lines to enable HTTP Basic Auth. Please also change username and password!
-$config['auth']['username']                 = 'xyz';        // set your username
-$config['auth']['password']                 = 'xyz';        // set a strong password
+// $config['auth']['username']                 = '';        // set your username
+// $config['auth']['password']                 = '';        // set a strong password
 
 // ONLY CHANGE SETTINGS BELOW BEFORE INSTALLATION
 
