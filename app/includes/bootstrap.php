@@ -30,15 +30,21 @@ catch(Exception $ex) {
     die('The functions.php could not be loaded: ' . $ex->getMessage());
 }
 
-// are we running on heroku and is cleardb available?
-if(false !== getenv('CLEARDB_DATABASE_URL')) {
-    // instead of using database settings from config.php, use CLEARDB
-    $url = parse_url(false !== getenv('CLEARDB_DATABASE_URL'));
-    $config['database']['driver']   = 'mysql';
-    $config['database']['host']     = $url['host'];
-    $config['database']['username'] = $url['user'];
-    $config['database']['password'] = $url['pass'];
-    $config['database']['database'] = substr($url['path'], 1);
+// are we running on heroku?
+if('heroku' === getenv('HEROKU')) {
+    // is cleardb available?
+    if (false !== getenv('CLEARDB_DATABASE_URL')) {
+        // instead of using database settings from config.php, use CLEARDB
+        $url = parse_url(false !== getenv('CLEARDB_DATABASE_URL'));
+        $config['database']['driver'] = 'mysql';
+        $config['database']['host'] = $url['host'];
+        $config['database']['username'] = $url['user'];
+        $config['database']['password'] = $url['pass'];
+        $config['database']['database'] = substr($url['path'], 1);
+    }
+    else {
+        $requirementsErrors[] = 'It seems that you are trying to run DIWA on Heroku. Please install CLEARDB Addon (free Plan is sufficient) yourself.';
+    }
 }
 
 // establish DB Connection
