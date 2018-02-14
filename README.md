@@ -3,8 +3,8 @@ DIWA
 This is just a short description. For full Documentation see [docs](docs) Directory.
 
 ## Requirements
-* PHP 5.6 or higher (PHP7 is recommended) with at least one PDO-Driver (pdo_sqlite, pdo_mysql or pdo_pgsql) enabled
-* Browser (Firefox or Chrome are recommended)
+* PHP 5.6 or higher (PHP7 is recommended) with at least one of the following PDO-Drivers: pdo_sqlite or pdo_mysql
+* A web browser (Firefox or Chrome are recommended)
 
 ## Manual Installation
 
