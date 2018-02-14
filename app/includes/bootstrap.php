@@ -31,6 +31,7 @@ catch(Exception $ex) {
 }
 
 // are we running on heroku?
+$herokuError = false;
 if('heroku' === getenv('HEROKU')) {
     // is cleardb available?
     if (false !== getenv('CLEARDB_DATABASE_URL')) {
@@ -43,40 +44,36 @@ if('heroku' === getenv('HEROKU')) {
         $config['database']['database'] = substr($url['path'], 1);
     }
     else {
-        $requirementsErrors[] = 'It seems that you are trying to run DIWA on Heroku. Please install CLEARDB Addon (free Plan is sufficient) yourself.';
+        $requirementsErrors[] = 'It seems that you are trying to run DIWA on Heroku. Please install CLEARDB Addon (free Plan is sufficient) for the app yourself.';
+        $herokuError = true;
     }
 }
 
+if(!$herokuError) {
 // establish DB Connection
 // currently only sqlite & mysql are supported
-$db = null;
-try {
-    if (extension_loaded('PDO') && extension_loaded('pdo_' . $config['database']['driver'])) {
-        if('sqlite' === $config['database']['driver']) {
-            $db = new PDO($config['database']['driver'] . ':' . $config['database']['database'],
-                null,
-                null,
-                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        }
-        elseif('mysql' === $config['database']['driver']) {
-            $db = new PDO($config['database']['driver'] . ':host=' . $config['database']['server'] . ';dbname=' . $config['database']['database'],
-                $config['database']['username'],
-                $config['database']['password'],
-                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    $db = null;
+    try {
+        if (extension_loaded('PDO') && extension_loaded('pdo_' . $config['database']['driver'])) {
+            if ('sqlite' === $config['database']['driver']) {
+                $db = new PDO($config['database']['driver'] . ':' . $config['database']['database'],
+                    null,
+                    null,
+                    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            } elseif ('mysql' === $config['database']['driver']) {
+                $db = new PDO($config['database']['driver'] . ':host=' . $config['database']['server'] . ';dbname=' . $config['database']['database'],
+                    $config['database']['username'],
+                    $config['database']['password'],
+                    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            } else {
+                $requirementsErrors[] = 'The configured PDO Driver "' . $config['database']['driver'] . '" is not a valid option. Please change the corresponding setting in your config.php';
+            }
         } else {
-            $requirementsErrors[] = 'The configured PDO Driver "' . $config['database']['driver'] . '" is not a valid option. Please change the corresponding setting in your config.php';
+            $requirementsErrors[] = 'The configured PDO Driver "' . $config['database']['driver'] . '" could not be found. Please make sure it is loaded in your php.ini or change the corresponding setting in your config.php';
         }
+    } catch (Exception $ex) {
+        $requirementsErrors[] = 'The connection to the configured database could not be established: ' . $ex->getMessage();
     }
-    else {
-        $requirementsErrors[] = 'The configured PDO Driver "' . $config['database']['driver'] . '" could not be found. Please make sure it is loaded in your php.ini or change the corresponding setting in your config.php';
-    }
-}
-catch(Exception $ex) {
-    $requirementsErrors[] = 'The connection to the configured database could not be established: ' . $ex->getMessage();
-}
-// connection available?
-if(null === $db) {
-    $requirementsErrors[] = 'The connection to the configured database could not be established.';
 }
 
 // reset or install system?
