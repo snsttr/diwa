@@ -9,6 +9,26 @@ define('LAYOUT_PATH', ROOT_PATH . '/layout');
 // bootstrap DIWA
 require_once SYSTEM_PATH . '/bootstrap.php';
 
+// is HTTP Basic Auth enabled?
+if(
+    isset($config['auth']['username'])
+    && !empty($config['auth']['username'])
+    && isset($config['auth']['password'])
+    && !empty($config['auth']['password'])
+) {
+    if (
+        !isset($_SERVER['PHP_AUTH_USER'])
+        || !isset($_SERVER['PHP_AUTH_PW'])
+        || $_SERVER['PHP_AUTH_USER'] !== $config['auth']['username']
+        || $_SERVER['PHP_AUTH_PW'] !== $config['auth']['password']
+    ) {
+        header('WWW-Authenticate: Basic realm="DIWA"');
+        header('HTTP/1.0 401 Authorization Required');
+        echo 'Please enter correct username and password.';
+        exit;
+    }
+}
+
 // start output buffering
 ob_start();
 
