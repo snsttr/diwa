@@ -6,7 +6,11 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <?php if($config['site']['show_welcome_message']) { ?>
+            <h2>Feel free to hack this site!</h2>
+            <p>This site was made to be hacked. A lot of bugs and vulnerabilities can be exploited to learn how to hack a bad developed website. This
+            should show every developer why it is important to care for website security.</p>
+            <p>DIWA does not guide you through the different attacks or gives you exercises to fulfill. Just try to break everything ;-)</p>
+            <?php if($config['site']['show_extended_homepage']) { ?>
                 <h2>How insecure is DIWA?</h2>
                 <p>DIWA is horribly insecure! The following vulnerabilities and attack vectors exist in this application:</p>
                 <ul>
@@ -30,8 +34,6 @@
                     <li>Send Spam through the <a href="?page=contact">Contact Form</a></li>
                     <li>...</li>
                 </ul>
-            <?php } else { ?>
-                <h2>Feel free to hack this site!</h2>
             <?php } ?>
         </div>
     </div>
