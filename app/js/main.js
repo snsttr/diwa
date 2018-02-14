@@ -23,4 +23,8 @@ $(document).ready(function(){
             window.location = anchor[0].href;
         }
     });
+
+    $('.diwa-reset').submit(function () {
+        return window.confirm('Are you sure you want to reset DIWA\'s database?\nYou will lose all Users, Posts, Uploads, etc.');
+    });
 });

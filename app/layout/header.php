@@ -26,6 +26,10 @@ function menuEntry($pTitle, $pPage = null) {
         .clickable-row:hover {
             background-color: #f5f5f5;
         }
+
+        .large .fa {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body class="<?php echo isset($_GET['page']) ? $_GET['page'] : 'index'; ?>">
@@ -38,42 +42,45 @@ function menuEntry($pTitle, $pPage = null) {
         <div class="navbar-header">
             <a class="navbar-brand" href="./">DIWA</a>
         </div>
-        <ul class="nav navbar-nav">
-            <?php echo menuEntry('Home'); ?>
-            <?php echo menuEntry('Documentation', 'documentation'); ?>
-            <?php echo menuEntry('Downloads', 'downloads'); ?>
-            <?php if(isLoggedIn()) { ?>
-                <?php echo menuEntry('Board', 'board'); ?>
-            <?php } ?>
-            <?php echo menuEntry('Contact', 'contact'); ?>
-        </ul>
-        <?php if(isLoggedIn()) { ?>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <?php echo icon('user'); ?> <strong><?php echo $_SESSION['user']['username'] ?></strong> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <?php echo menuEntry('Profile', 'profile'); ?>
-                        <?php
-                        if(1 == $_SESSION['user']['is_admin']) {
-                            echo '<li role="separator" class="divider"></li>';
-                            echo '<li class="dropdown-header">Administration</li>';
-                            echo menuEntry('Users', 'users');
-                            echo menuEntry('Downloads', 'downloads&review=1');
-                        }
-                        ?>
-                        <li role="separator" class="divider"></li>
-                        <?php echo menuEntry('Log Out', 'logout'); ?>
-                    </ul>
-                </li>
+        <?php if(!$installation) { ?>
+            <ul class="nav navbar-nav">
+                <?php echo menuEntry('Home'); ?>
+                <?php echo menuEntry('Documentation', 'documentation'); ?>
+                <?php echo menuEntry('Downloads', 'downloads'); ?>
+                <?php if(isLoggedIn()) { ?>
+                    <?php echo menuEntry('Board', 'board'); ?>
+                <?php } ?>
+                <?php echo menuEntry('Contact', 'contact'); ?>
             </ul>
-        <?php } else { ?>
-            <form class="navbar-form navbar-right" role="form" method="post" action="?page=login">
-                <div class="form-group"><input type="text" name="email" placeholder="E-Mail-Address" class="form-control"></div>
-                <div class="form-group"><input type="password" name="password" placeholder="Password" class="form-control"></div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-                <a href="?page=register" class="btn btn-primary">Register</a>
-            </form>
+            <?php if(isLoggedIn()) { ?>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <?php echo icon('user'); ?> <strong><?php echo $_SESSION['user']['username'] ?></strong> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <?php echo menuEntry('Profile', 'profile'); ?>
+                            <?php
+                            if(1 == $_SESSION['user']['is_admin']) {
+                                echo '<li role="separator" class="divider"></li>';
+                                echo '<li class="dropdown-header">Administration</li>';
+                                echo menuEntry('Users', 'users');
+                                echo menuEntry('Downloads', 'downloads&review=1');
+                            }
+                            ?>
+                            <li role="separator" class="divider"></li>
+                            <?php echo menuEntry('Log Out', 'logout'); ?>
+                        </ul>
+                    </li>
+                </ul>
+            <?php } else { ?>
+
+                <form class="navbar-form navbar-right" role="form" method="post" action="?page=login">
+                    <div class="form-group"><input type="text" name="email" placeholder="E-Mail-Address" class="form-control"></div>
+                    <div class="form-group"><input type="password" name="password" placeholder="Password" class="form-control"></div>
+                    <button type="submit" class="btn btn-success">Sign in</button>
+                    <a href="?page=register" class="btn btn-primary">Register</a>
+                </form>
+            <?php } ?>
         <?php } ?>
     </div>
 </nav>

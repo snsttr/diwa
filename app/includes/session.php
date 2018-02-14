@@ -4,7 +4,7 @@ session_start();
 
 // get user information
 try {
-    if(isset($_SESSION['user_id'])) {
+    if(!$installation && isset($_SESSION['user_id'])) {
         $result = $model->getUserData($_SESSION['user_id']);
 
         // found a matching user?
