@@ -20,10 +20,10 @@ Since DIWA has a lot of security holes that allow an attacker to compromise a we
 accessible for yourself or the persons you want to use it.
 
 ## How to contribute?
-Feel free to fork DIWA or open pull requests on github: https://github.com/snsttr/diwa/
+Feel free to fork DIWA or open [pull requests](https://github.com/snsttr/diwa/pulls) on github.
 
 ## Where can I report Issues?
-Please use our github Project to report Issues: https://github.com/snsttr/diwa/issues/
+Please use our github Project to [report Issues](https://github.com/snsttr/diwa/issues/).
 
 ## License
 See [LICENSE.md](../LICENSE.md)
