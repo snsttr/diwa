@@ -5,6 +5,13 @@
  * @param string $pMessage
  */
 function error($pCode = 500, $pMessage = 'An unknown Error occured.', $pException = null) {
+    // log error
+    $errorMessage = date('Y-m-d H:i:s') . ' ' . trim($pMessage);
+    if(null !== $pException) {
+        $errorMessage .= PHP_EOL . '     Exception: ' . $pException->getMessage();
+    }
+    @file_put_contents(ROOT_PATH . '/logs/error.log',$errorMessage . PHP_EOL,FILE_APPEND);
+    // send response
     if(!headers_sent()) {
         $responseCodes = array(
             100 => 'Continue',
@@ -68,8 +75,14 @@ function error($pCode = 500, $pMessage = 'An unknown Error occured.', $pExceptio
     echo '<h1>DIWA Error ' . $pCode . ' (' . $responseCodes[$pCode] . ')</h1>';
     echo '<p>' . $pMessage . '</p>';
     if(null !== $pException) {
-        // TODO Make prettier
-        var_dump($pException);
+        echo '<h2>Stacktrace</h2>';
+        if(isset($_SESSION['user']['is_admin']) && 1 == $_SESSION['user']['is_admin']) {
+            echo '<pre>';
+            var_dump($pException);
+            echo '</pre>';
+        } else {
+            echo '<div class="alert alert-info">The Stacktrace can only be viewed by admin users.</div>';
+        }
     }
     exit;
 }

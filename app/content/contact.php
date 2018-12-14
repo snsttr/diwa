@@ -29,7 +29,7 @@ if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
         foreach ($_POST['recipients'] as $recipient) {
             // save mails to mail.log
             if(@file_put_contents(
-                ROOT_PATH . '/mail.log',
+                ROOT_PATH . '/logs/mail.log',
                 '[=== ' . date('Y-m-d H:i:s') . ' ===]' . PHP_EOL . 'TO: ' . trim($recipient) . PHP_EOL . 'FROM: ' . $_POST['name'] . ' <' . $_POST['email'] . '>' . PHP_EOL . 'MESSAGE:' . PHP_EOL . $_POST['message'] . PHP_EOL . PHP_EOL,
                 FILE_APPEND)) {
                 $sent++;
