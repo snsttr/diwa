@@ -26,11 +26,19 @@ try {
             $errors[] = 'Your post has to be at least 3 Characters long.';
         }
         else {
-            if (!$model->editPost($_GET['id'], $_POST['post'])) {
-                $errors[] = 'Your post could not be edited';
-            } else {
-                // on success: redirect
-                redirect('?page=thread&id=' . $post['thread_id'] . '&edited=1');
+
+            // check if script-tags have been used
+            if(1 === preg_match('$<script(.*?)>$is', $_POST['post'])) {
+                $errors[] = 'Script-Tags are not allowed!';
+            }
+            else {
+                // save edited post
+                if (!$model->editPost($_GET['id'], $_POST['post'])) {
+                    $errors[] = 'Your post could not be edited';
+                } else {
+                    // on success: redirect
+                    redirect('?page=thread&id=' . $post['thread_id'] . '&edited=1');
+                }
             }
         }
     }

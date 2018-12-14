@@ -13,11 +13,18 @@ try {
             $errors[] = 'Your post has to be at least 3 Characters long.';
         }
         else {
-            if (!$model->createPost($_GET['id'], $_SESSION['user_id'], $_POST['post'])) {
-                $errors[] = 'Your post could not be saved';
-            } else {
-                // on success: redirect
-                redirect('?page=thread&id=' . $_GET['id'] . '&saved=1');
+            // check if script-tags have been used
+            if(1 === preg_match('$<script(.*?)>$is', $_POST['post'])) {
+                $errors[] = 'Script-Tags are not allowed!';
+            }
+            else {
+                // save Post
+                if (!$model->createPost($_GET['id'], $_SESSION['user_id'], $_POST['post'])) {
+                    $errors[] = 'Your post could not be saved';
+                } else {
+                    // on success: redirect
+                    redirect('?page=thread&id=' . $_GET['id'] . '&saved=1');
+                }
             }
         }
     }

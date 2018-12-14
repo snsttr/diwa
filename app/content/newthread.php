@@ -20,6 +20,11 @@ try {
             $errors[] = 'Your post has to be at least 3 Characters long.';
         }
 
+        // check if script-tags have been used
+        if(1 === preg_match('$<script(.*?)>$is', $_POST['post'])) {
+            $errors[] = 'Script-Tags are not allowed!';
+        }
+
         if(empty($errors)) {
             // save thread
             $threadId = $model->createThread($_POST['title'], (isset($_POST['admins_only']) && '1' === $_POST['admins_only']));
