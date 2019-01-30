@@ -49,7 +49,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
                 redirect('?page=editprofile&saved=1' . ($adminMode ? '&user_id=' . $userId : ''));
             }
             else {
-                $errors[] = 'Your profile could not be updated.';
+                $errors[] = ($adminMode ? 'The' : 'Your') . ' profile could not be updated.';
             }
         } catch (Exception $ex) {
             error(500, ($adminMode ? 'The' : 'Your') . ' profile could not be updated', $ex);

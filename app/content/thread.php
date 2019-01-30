@@ -70,7 +70,7 @@ $adminsOnly = (1 == $thread['admins_only']);
         foreach ($resultPosts as $post) {
             ?>
             <div class="panel panel-default">
-                <div class="panel-heading"><a name="post-<?php echo $post['id']; ?>"></a><p>User: <strong><?php echo $post['username']; ?></strong> <?php echo ($_SESSION['user_id'] == $post['user_id'] ? '(<a href="?page=editpost&id=' . $post['id'] . '">Edit</a>)' : '') ?><span class="pull-right"><?php echo $post['timestamp']; ?></span></p></div>
+                <div class="panel-heading"><a name="post-<?php echo $post['id']; ?>"></a><p>User: <strong><a href="/?page=profile&user_id=<?php echo $post['user_id']; ?>"><?php echo $post['username']; ?></a></strong> <?php echo ($_SESSION['user_id'] == $post['user_id'] ? '(<a href="?page=editpost&id=' . $post['id'] . '">Edit</a>)' : '') ?><span class="pull-right"><?php echo $post['timestamp']; ?></span></p></div>
                 <div class="panel-body">
                     <p><?php echo nl2br($post['text']); ?></p>
                 </div>

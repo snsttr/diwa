@@ -294,4 +294,29 @@ class Model {
             error(500, 'Query could not be executed', $ex);
         }
     }
+
+    function getPostsByUser($pUserId) {
+        try {
+            $sql = '
+                SELECT
+                  ' . $this->prefix . 'threads.id AS thread_id,
+                  ' . $this->prefix . 'threads.title AS thread_title,
+                  ' . $this->prefix . 'threads.admins_only AS thread_admins_only,
+                  ' . $this->prefix . 'posts.id AS post_id,
+                  ' . $this->prefix . 'posts.timestamp AS post_timestamp,
+                  ' . $this->prefix . 'posts.text AS post_text
+                FROM
+                  ' . $this->prefix . 'posts,
+                  ' . $this->prefix . 'threads
+                WHERE
+                  ' . $this->prefix . 'posts.user_id = ' . $pUserId . ' AND
+                  ' . $this->prefix . 'posts.thread_id = ' . $this->prefix . 'threads.id
+                ORDER BY
+                  ' . $this->prefix . 'posts.timestamp DESC;';
+            return $this->db->query($sql)->fetchAll();
+        }
+        catch(Exception $ex) {
+            error(500, 'Query could not be executed', $ex);
+        }
+    }
 }

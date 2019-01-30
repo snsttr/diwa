@@ -32,10 +32,10 @@ catch(Exception $ex) {
                 <?php
                 foreach($result as $thread) {
                     $adminsOnly = (1 == $thread['admins_only']);
-                    $adminRestricted = ($adminsOnly && 0 == $_SESSION['user']['is_admin']);
+                    $adminRestricted = ($adminsOnly && isset($_SESSION['user']['is_admin']) && 0 == $_SESSION['user']['is_admin']);
                     ?>
-                    <tr class="<?php echo ($adminsOnly ? '' : 'clickable-row'); ?>">
-                        <td><?php echo ($adminsOnly ? icon('lock') : icon('user')) . ' <strong>' . ($adminRestricted ? '' . $thread['title'] : '<a href="?page=thread&id=' . $thread['id'] . '">' . $thread['title'] . '</a>') . '</strong>'; ?></td>
+                    <tr class="<?php echo ($adminRestricted ? '' : 'clickable-row'); ?>">
+                        <td><?php echo ($adminsOnly ? icon('lock') : '') . ' <strong>' . ($adminRestricted ? '' . $thread['title'] : '<a href="?page=thread&id=' . $thread['id'] . '">' . $thread['title'] . '</a>') . '</strong>'; ?></td>
                         <td><?php echo $thread['count_post']; ?></td>
                         <td><?php echo $thread['last_post']; ?></td>
                     </tr>
