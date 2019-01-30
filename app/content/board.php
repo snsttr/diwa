@@ -11,41 +11,39 @@ try {
     $result = $model->getAllThreads();
 }
 catch(Exception $ex) {
-    error(500, 'Could not query threads from Database: ' . $ex->getMessage());
+    error(500, 'Could not query threads from Database', $ex);
 }
 
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1>Board<a href="?page=newthread" class="btn btn-primary pull-right"><?php echo icon('plus'); ?> New Thread</a></h1>
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Board<a href="?page=newthread" class="btn btn-primary pull-right"><?php echo icon('plus'); ?> New Thread</a></h1>
 
-            <?php if(false !== $result && 0 < count($result)) { ?>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th># of Posts</th>
-                        <th>Last Post</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    foreach($result as $thread) {
-                        $adminsOnly = (1 == $thread['admins_only']);
-                        $adminRestricted = ($adminsOnly && 0 == $_SESSION['user']['is_admin']);
-                        ?>
-                        <tr class="<?php echo ($adminsOnly ? '' : 'clickable-row'); ?>">
-                            <td><?php echo ($adminsOnly ? icon('lock') : icon('user')) . ' <strong>' . ($adminRestricted ? '' . $thread['title'] : '<a href="?page=thread&id=' . $thread['id'] . '">' . $thread['title'] . '</a>') . '</strong>'; ?></td>
-                            <td><?php echo $thread['count_post']; ?></td>
-                            <td><?php echo $thread['last_post']; ?></td>
-                        </tr>
-                        <?php
-                    }
+        <?php if(false !== $result && 0 < count($result)) { ?>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th># of Posts</th>
+                    <th>Last Post</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach($result as $thread) {
+                    $adminsOnly = (1 == $thread['admins_only']);
+                    $adminRestricted = ($adminsOnly && 0 == $_SESSION['user']['is_admin']);
                     ?>
-                    </tbody>
-                </table>
-            <?php } ?>
-        </div>
+                    <tr class="<?php echo ($adminsOnly ? '' : 'clickable-row'); ?>">
+                        <td><?php echo ($adminsOnly ? icon('lock') : icon('user')) . ' <strong>' . ($adminRestricted ? '' . $thread['title'] : '<a href="?page=thread&id=' . $thread['id'] . '">' . $thread['title'] . '</a>') . '</strong>'; ?></td>
+                        <td><?php echo $thread['count_post']; ?></td>
+                        <td><?php echo $thread['last_post']; ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                </tbody>
+            </table>
+        <?php } ?>
     </div>
 </div>

@@ -61,7 +61,7 @@ function menuEntry($pTitle, $pPage = null) {
                         <ul class="dropdown-menu">
                             <?php echo menuEntry('Profile', 'profile'); ?>
                             <?php
-                            if(1 == $_SESSION['user']['is_admin']) {
+                            if(isset($_SESSION['user']['is_admin']) && 1 == $_SESSION['user']['is_admin']) {
                                 echo '<li role="separator" class="divider"></li>';
                                 echo '<li class="dropdown-header">Administration</li>';
                                 echo menuEntry('Users', 'users');
@@ -85,3 +85,5 @@ function menuEntry($pTitle, $pPage = null) {
         <?php } ?>
     </div>
 </nav>
+
+<div class="container">

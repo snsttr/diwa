@@ -1,3 +1,5 @@
+</div>
+
 <?php if($config['site']['show_footer_info']) { ?>
     <hr/>
     <div class="container">

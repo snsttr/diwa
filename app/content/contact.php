@@ -60,53 +60,51 @@ if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
 try {
     $resultAdmins = $model->getAllAdmins();
     if(false === $resultAdmins || 0 === count($resultAdmins)) {
-        error(500, '');
+        error(500, 'Could not determine all admin accounts');
     }
 }
 catch(Exception $ex) {
     error(500, 'Could not query admins from Database', $ex);
 }
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1>Contact an Admin</h1>
-            <?php
-            if(!empty($errors)) {
-                echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
-            }
-            ?>
-            <form action="?page=contact" method="post">
-                <div class="form-group">
-                    <label for="name">Your Name:</label>
-                    <input type="text" class="form-control" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : ''); ?>" id="name">
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Contact an Admin</h1>
+        <?php
+        if(!empty($errors)) {
+            echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
+        }
+        ?>
+        <form action="?page=contact" method="post">
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" class="form-control" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : ''); ?>" id="name">
+            </div>
+            <div class="form-group">
+                <label for="email">Your E-Mail-Adress:</label>
+                <input type="email" class="form-control" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : ''); ?>" id="email">
+            </div>
+            <div class="form-group">
+                <p><strong>Recipients:</strong></p>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default select-all-admins">Select all</button>
+                    <button type="button" class="btn btn-default unselect-all-admins">Unselect all</button>
                 </div>
-                <div class="form-group">
-                    <label for="email">Your E-Mail-Adress:</label>
-                    <input type="email" class="form-control" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : ''); ?>" id="email">
-                </div>
-                <div class="form-group">
-                    <p><strong>Recipients:</strong></p>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default select-all-admins">Select all</button>
-                        <button type="button" class="btn btn-default unselect-all-admins">Unselect all</button>
+                <?php
+                foreach ($resultAdmins as $admin) {
+                    ?>
+                    <div  class="checkbox">
+                        <label><input type="checkbox" name="recipients[]" value="<?php echo $admin['email']; ?>" class="select-admin"<?php echo (isset($_POST['recipients']) && in_array($admin['email'], $_POST['recipients']) ? ' checked="checked"' : '') ?>> <?php echo $admin['username']; ?></label>
                     </div>
                     <?php
-                    foreach ($resultAdmins as $admin) {
-                        ?>
-                        <div  class="checkbox">
-                            <label><input type="checkbox" name="recipients[]" value="<?php echo $admin['email']; ?>" class="select-admin"<?php echo (isset($_POST['recipients']) && in_array($admin['email'], $_POST['recipients']) ? ' checked="checked"' : '') ?>> <?php echo $admin['username']; ?></label>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <div class="form-group">
-                    <label for="message">Your Message:</label>
-                    <textarea class="form-control" rows="5" name="message" id="message"><?php echo isset($_POST['message']) ? $_POST['message'] : ''; ?></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary"><?php echo icon('envelope'); ?> Send Message</button>
-            </form>
-        </div>
+                }
+                ?>
+            </div>
+            <div class="form-group">
+                <label for="message">Your Message:</label>
+                <textarea class="form-control" rows="5" name="message" id="message"><?php echo isset($_POST['message']) ? $_POST['message'] : ''; ?></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"><?php echo icon('envelope'); ?> Send Message</button>
+        </form>
     </div>
 </div>

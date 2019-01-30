@@ -75,13 +75,35 @@ function error($pCode = 500, $pMessage = 'An unknown Error occured.', $pExceptio
     echo '<h1>DIWA Error ' . $pCode . ' (' . $responseCodes[$pCode] . ')</h1>';
     echo '<p>' . $pMessage . '</p>';
     if(null !== $pException) {
-        echo '<h2>Stacktrace</h2>';
+        echo '<h2>Exception</h2>';
         if(isset($_SESSION['user']['is_admin']) && 1 == $_SESSION['user']['is_admin']) {
+            echo '<p><strong>Message:</strong> ' . $pException->getMessage() . '</p>';
+            echo '<p><strong>File/Line:</strong> ' . $pException->getFile() . ' @ ' . $pException->getLine() . '</p>';
             echo '<pre>';
-            var_dump($pException);
+            //
+                //foreach ($entry as $name => $item) {
+                //    echo $name . ': ' . $item . '<br/>';
+                //}
+            //}
+            foreach ($pException->getTrace() as $entryNum => $entry) {
+                echo '==== #' . $entryNum . ' ====<br/>';
+                foreach ($entry as $key => $item) {
+                    if(is_array($item)) {
+                        echo 'args: <br/>';
+                        foreach ($item as $argNum => $arg) {
+                            echo '    #' . $argNum . ' ' . $arg . '<br/>';
+                        }
+                    }
+                    else {
+                        echo $key . ': ' . $item . '<br/>';
+                    }
+                };
+                echo '<br/>';
+            }
+
             echo '</pre>';
         } else {
-            echo '<div class="alert alert-info">The Stacktrace can only be viewed by admin users.</div>';
+            echo '<div class="alert alert-info">The Exception information can only be viewed by admin users.</div>';
         }
     }
     exit;

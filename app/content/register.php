@@ -13,14 +13,18 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
         $errors[] = 'Your Username has to be at least 3 Characters long.';
     }
     else {
-        // find out if email-address already is in use
-        try {
-            if($model->isUserEmailInUse($_POST['email'])) {
-                $errors[] = 'The E-Mail-Address "' . $_POST['email'] . '" already is in use. Please choose a different one.';
+        if(!isset($_POST['email']) || false === filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Please enter a valid Email address.';
+        } else {
+
+            // find out if email-address already is in use
+            try {
+                if ($model->isUserEmailInUse($_POST['email'])) {
+                    $errors[] = 'The E-Mail-Address "' . $_POST['email'] . '" already is in use. Please choose a different one.';
+                }
+            } catch (Exception $ex) {
+                error(500, 'Exception while finding a User', $ex);
             }
-        }
-        catch (Exception $ex) {
-            error(500, 'Exception while finding a User: ' . $ex->getMessage());
         }
 
         // find out if username already is in use
@@ -30,12 +34,8 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
             }
         }
         catch (Exception $ex) {
-            error(500, 'Exception while finding a User: ' . $ex->getMessage());
+            error(500, 'Exception while finding a User', $ex);
         }
-    }
-
-    if(!isset($_POST['email']) || false === filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Please enter a valid Email address.';
     }
 
     if(!empty($_POST['password'])) {
@@ -75,7 +75,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
             }
         }
         catch(Exception $ex) {
-            error(500, 'The registration was not successfull: ' . $ex->getMessage());
+            error(500, 'The registration was not successfull', $ex);
         }
     }
 }
@@ -85,53 +85,51 @@ $countryList = array('Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'And
 
 ?>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1>User Registration</h1>
-            <?php
-            if(!empty($errors)) {
-                echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
-            }
-            ?>
-            <p class="text-center">
-            <form method="post" action="?page=register">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" name="username" value="<?php echo (isset($_POST['username']) ? $_POST['username'] : ''); ?>" id="username">
+<div class="row">
+    <div class="col-lg-12">
+        <h1>User Registration</h1>
+        <?php
+        if(!empty($errors)) {
+            echo '<div class="alert alert-danger">' . implode('<br/>', $errors) . '</div>';
+        }
+        ?>
+        <p class="text-center">
+        <form method="post" action="?page=register">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" name="username" value="<?php echo (isset($_POST['username']) ? $_POST['username'] : ''); ?>" id="username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email address:</label>
+                <input type="email" class="form-control" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : ''); ?>" id="email">
+            </div>
+            <div class="form-group">
+                <label for="country">Location:</label>
+                <select name="country" class="form-control" id="country">
+                    <?php
+                    foreach ($countryList as $country) {
+                        echo '<option value="' . $country . '"' . (isset($_POST['country']) && $country == $_POST['country'] ? ' selected="selected"' : '') . '>' . $country . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password" id="password">
+            </div>
+            <div class="form-group">
+                <label for="password-repeat">Repeat Password:</label>
+                <input type="password" class="form-control" name="password-repeat" id="password-repeat">
+            </div>
+            <hr/>
+            <div class="form-group">
+                <div class="alert alert-warning">
+                    <label for="invitation-code"><?php echo icon('lock'); ?> Invitation Code (4 Digits):</label>
+                    <input type="password" class="form-control" name="invitation-code" id="invitation-code" maxlength="4">
                 </div>
-                <div class="form-group">
-                    <label for="email">Email address:</label>
-                    <input type="email" class="form-control" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : ''); ?>" id="email">
-                </div>
-                <div class="form-group">
-                    <label for="country">Location:</label>
-                    <select name="country" class="form-control" id="country">
-                        <?php
-                        foreach ($countryList as $country) {
-                            echo '<option value="' . $country . '"' . (isset($_POST['country']) && $country == $_POST['country'] ? ' selected="selected"' : '') . '>' . $country . '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" name="password" id="password">
-                </div>
-                <div class="form-group">
-                    <label for="password-repeat">Repeat Password:</label>
-                    <input type="password" class="form-control" name="password-repeat" id="password-repeat">
-                </div>
-                <hr/>
-                <div class="form-group">
-                    <div class="alert alert-warning">
-                        <label for="invitation-code"><?php echo icon('lock'); ?> Invitation Code (4 Digits):</label>
-                        <input type="password" class="form-control" name="invitation-code" id="invitation-code" maxlength="4">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary"><?php echo icon('ok'); ?> Register</button>
-            </form>
-            </p>
-        </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><?php echo icon('ok'); ?> Register</button>
+        </form>
+        </p>
     </div>
 </div>

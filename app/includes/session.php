@@ -21,5 +21,5 @@ try {
     }
 }
 catch(Exception $ex) {
-    error(500, 'Error in Session Management: ' . $ex->getMessage());
+    error(500, 'Error in Session Management', $ex);
 }
