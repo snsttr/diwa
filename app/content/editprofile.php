@@ -22,7 +22,7 @@ try {
     $userData = $result[0];
 }
 catch(Exception $ex) {
-    error(500, 'Could not query given Post from Database', $ex);
+    error(500, 'Could not query given user from Database', $ex);
 }
 
 $errors = array();

@@ -13,6 +13,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
         $errors[] = 'Your Username has to be at least 3 Characters long.';
     }
     else {
+        // validate email-address
         if(!isset($_POST['email']) || false === filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'Please enter a valid Email address.';
         } else {
