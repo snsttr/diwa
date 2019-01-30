@@ -59,7 +59,7 @@ function menuEntry($pTitle, $pPage = null) {
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <?php echo icon('user'); ?> <strong><?php echo $_SESSION['user']['username'] ?></strong> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <?php echo menuEntry('Profile', 'profile'); ?>
+                            <?php echo menuEntry('Profile', 'editprofile'); ?>
                             <?php
                             if(isset($_SESSION['user']['is_admin']) && 1 == $_SESSION['user']['is_admin']) {
                                 echo '<li role="separator" class="divider"></li>';

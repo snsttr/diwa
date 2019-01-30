@@ -63,7 +63,7 @@ catch(Exception $ex) {
                         <td><?php echo $user['country']; ?></td>
                         <td><?php echo (1 == $user['is_admin'] ? icon('ok') : ''); ?></td>
                         <td>
-                            <a href="?page=profile&user_id=<?php echo $user['id']; ?>" class="btn btn-default" title="Edit User"><?php echo icon('edit'); ?> Edit</a>
+                            <a href="?page=editprofile&user_id=<?php echo $user['id']; ?>" class="btn btn-default" title="Edit User"><?php echo icon('edit'); ?> Edit</a>
                             <a href="?page=users&remove=<?php echo $user['id']; ?>" class="btn btn-default remove-user" title="Remove User"><?php echo icon('remove'); ?> Remove</a>
                         </td>
                     </tr>

@@ -16,8 +16,8 @@ if(isset($_GET['user_id'])) {
 // get user's data
 try {
     $result = $model->getUserData($userId);
-    if(false === $result || 0 >= $result) {
-        error(500, 'Could not find given User in Database', $ex);
+    if(false === $result || 0 >= count($result)) {
+        error(500, 'Could not find given User in Database');
     }
     $userData = $result[0];
 }
@@ -46,7 +46,7 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
         try {
             if($model->editUser($userId, $_POST['email'], $_POST['country'], $changePassword, ($adminMode ? (1 == $_POST['is_admin'] ? 1 : 0) : null))) {
                 // on success: redirect
-                redirect('?page=profile&saved=1' . ($adminMode ? '&user_id=' . $userId : ''));
+                redirect('?page=editprofile&saved=1' . ($adminMode ? '&user_id=' . $userId : ''));
             }
             else {
                 $errors[] = 'Your profile could not be updated.';
@@ -72,7 +72,7 @@ $countryList = array('Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'And
             echo '<div class="alert alert-success">' . ($adminMode ? 'The' : 'Your') . ' profile was updated.</div>';
         }
         ?>
-        <form method="post" action="?page=profile<?php echo ($adminMode ? '&user_id=' . $userId : '') ?>">
+        <form method="post" action="?page=editprofile<?php echo ($adminMode ? '&user_id=' . $userId : '') ?>">
             <div class="form-group">
                 <label for="email">Email address:</label>
                 <input type="email" class="form-control" name="email" value="<?php echo $userData['email']; ?>" id="email">
