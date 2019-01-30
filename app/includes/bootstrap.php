@@ -32,7 +32,7 @@ catch(Exception $ex) {
 
 // are we running on heroku?
 $herokuError = false;
-if('heroku' === getenv('HEROKU')) {
+if(getenv('HEROKU') || getenv('HEROKU_APP_DIR')) {
     // is cleardb available?
     if (false !== getenv('CLEARDB_DATABASE_URL')) {
         // instead of using database settings from config.php, use CLEARDB
