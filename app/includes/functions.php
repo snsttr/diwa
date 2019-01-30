@@ -5,6 +5,7 @@
  * @param string $pMessage
  */
 function error($pCode = 500, $pMessage = 'An unknown Error occured.', $pException = null) {
+    global $config;
     // log error
     $errorMessage = date('Y-m-d H:i:s') . ' ' . trim($pMessage);
     if(null !== $pException) {
@@ -105,6 +106,11 @@ function error($pCode = 500, $pMessage = 'An unknown Error occured.', $pExceptio
         } else {
             echo '<div class="alert alert-info">The Exception information can only be viewed by admin users.</div>';
         }
+    }
+
+    // include footer if only header already has been included
+    if(defined('HEADER_TEMPLATE') && !defined('FOOTER_TEMPLATE')) {
+        require_once LAYOUT_PATH . '/footer.php';
     }
     exit;
 }
