@@ -1,3 +1,6 @@
+<?php
+define('FOOTER_TEMPLATE', 1);
+?>
 </div>
 
 <?php if($config['site']['show_footer_info']) { ?>

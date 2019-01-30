@@ -1,4 +1,5 @@
 <?php
+define('HEADER_TEMPLATE', 1);
 
 function menuEntry($pTitle, $pPage = null) {
     return '<li' . ((!isset($_GET['page']) && null === $pPage) || (isset($_GET['page']) && $_GET['page'] === $pPage) ? ' class="active"' : '') . '><a href="' . (null === $pPage ? './' : '?page=' . $pPage) . '">' . $pTitle . '</a></li>';
