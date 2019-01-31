@@ -36,7 +36,7 @@ if(getenv('HEROKU') || getenv('HEROKU_APP_DIR')) {
     // is cleardb available?
     if (false !== getenv('CLEARDB_DATABASE_URL')) {
         // instead of using database settings from config.php, use CLEARDB
-        $url = parse_url(false !== getenv('CLEARDB_DATABASE_URL'));
+        $url = parse_url(getenv('CLEARDB_DATABASE_URL'));
         $config['database']['driver'] = 'mysql';
         $config['database']['host'] = $url['host'];
         $config['database']['username'] = $url['user'];
@@ -63,7 +63,7 @@ if(!$herokuError) {
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             } elseif ('mysql' === $config['database']['driver']) {
                 $connectionString = $config['database']['driver'] . ':hostname=' . $config['database']['host'] . ';dbname=' . $config['database']['database'];
-                $db = new PDO($config['database']['driver'] . ':hostname=' . $config['database']['host'] . ';dbname=' . $config['database']['database'],
+                $db = new PDO($connectionString,
                     $config['database']['username'],
                     $config['database']['password'],
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
