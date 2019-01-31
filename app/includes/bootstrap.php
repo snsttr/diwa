@@ -62,7 +62,7 @@ if(!$herokuError) {
                     null,
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             } elseif ('mysql' === $config['database']['driver']) {
-                $connectionString = $config['database']['driver'] . ':hostname=' . $config['database']['host'] . ';dbname=' . $config['database']['database'];
+                $connectionString = $config['database']['driver'] . ':host=' . $config['database']['host'] . ';dbname=' . $config['database']['database'];
                 $db = new PDO($connectionString,
                     $config['database']['username'],
                     $config['database']['password'],
@@ -74,7 +74,7 @@ if(!$herokuError) {
             $requirementsErrors[] = 'The configured PDO Driver "' . $config['database']['driver'] . '" could not be found. Please make sure it is loaded in your php.ini or change the corresponding setting in your config.php';
         }
     } catch (Exception $ex) {
-        $requirementsErrors[] = 'The connection to the configured database could not be established: ' . $ex->getMessage() . PHPEOL . 'CLEARDB_DATABASE_URL: ' . var_export(getenv('CLEARDB_DATABASE_URL'), true) . PHP_EOL . 'DB Config: ' . var_export($config['database'], true) . PHP_EOL . 'Connection String: ' . $connectionString;
+        $requirementsErrors[] = 'The connection to the configured database could not be established: ' . $ex->getMessage() . PHP_EOL . 'CLEARDB_DATABASE_URL: ' . var_export(getenv('CLEARDB_DATABASE_URL'), true) . PHP_EOL . 'DB Config: ' . var_export($config['database'], true) . PHP_EOL . 'Connection String: ' . $connectionString;
     }
 }
 
