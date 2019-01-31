@@ -1,19 +1,13 @@
 <?php
 if ('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
-    // Run installation
     try {
-        if(!include(INSTALLATION_PATH . '/model.php')) {
-            die('Error: could not include "model.php".');
+        if(!include(INSTALLATION_PATH . '/install.php')) {
+            die('Error: could not include "install.php".');
         }
     }
     catch(Exception $ex) {
-        die('Error: could not include "model.php": ' . $ex->getMessage());
+        die('Error: could not include "install.php": ' . $ex->getMessage());
     }
-    $installationModel = new Installation_Model($db, $config['database']['prefix']);
-    $installationModel->dropDiwaTables();
-    $installationModel->createDiwaTables();
-    $installationModel->insertDiwaData();
-
     // output message
     ?>
         <div class="container">

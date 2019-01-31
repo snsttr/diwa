@@ -31,3 +31,12 @@ commands:
     docker run -p 8080:80 -d diwa:latest
 
 DIWA will be accessible on port 8080.
+
+## Reset DIWA
+There are three options to reset DIWA's Database:
+
+* Click on the bomb-icon on the bottom of the page to get to the Reset-Page. There you can trigger
+  the database reset.
+* When calling `/?reset=diwa` the database is being resetted instantly (unprompted).
+* To also reset file changes and delete created files, just reset your git workspace (reset / clean).
+  When using MySQL als Database you should additionally use one of the reset methods above.
