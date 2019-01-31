@@ -42,6 +42,7 @@ if(getenv('HEROKU') || getenv('HEROKU_APP_DIR')) {
         $config['database']['username'] = $url['user'];
         $config['database']['password'] = $url['pass'];
         $config['database']['database'] = substr($url['path'], 1);
+        define('HEROKU', 1);
     }
     else {
         $requirementsErrors[] = 'It seems that you are trying to run DIWA on Heroku. Please install CLEARDB Addon (free Plan is sufficient) for the app yourself.';
@@ -61,7 +62,7 @@ if(!$herokuError) {
                     null,
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             } elseif ('mysql' === $config['database']['driver']) {
-                $db = new PDO($config['database']['driver'] . ':host=' . $config['database']['server'] . ';dbname=' . $config['database']['database'],
+                $db = new PDO($config['database']['driver'] . ':host=' . $config['database']['host'] . ';dbname=' . $config['database']['database'],
                     $config['database']['username'],
                     $config['database']['password'],
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
