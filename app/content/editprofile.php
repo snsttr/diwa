@@ -8,9 +8,9 @@ if(!isset($_SESSION['user_id'])) {
 $adminMode = false;
 
 $userId = $_SESSION['user_id'];
-if(isset($_GET['user_id'])) {
+if(isset($_GET['id'])) {
     $adminMode = true;
-    $userId = $_GET['user_id'];
+    $userId = $_GET['id'];
 }
 
 // get user's data
@@ -44,9 +44,9 @@ if('post' === strtolower($_SERVER['REQUEST_METHOD']) && isset($_POST)) {
     if(empty($errors)){
         // change profile info
         try {
-            if($model->editUser($userId, $_POST['email'], $_POST['country'], $changePassword, ($adminMode ? (1 == $_POST['is_admin'] ? 1 : 0) : null))) {
+            if($model->editUser($userId, $_POST['email'], $_POST['country'], $changePassword, ($adminMode && $userId !== $_SESSION['user_id']  ? (1 == $_POST['is_admin'] ? 1 : 0) : null))) {
                 // on success: redirect
-                redirect('?page=editprofile&saved=1' . ($adminMode ? '&user_id=' . $userId : ''));
+                redirect('?page=editprofile&saved=1' . ($adminMode ? '&id=' . $userId : ''));
             }
             else {
                 $errors[] = ($adminMode ? 'The' : 'Your') . ' profile could not be updated.';
@@ -72,7 +72,7 @@ $countryList = array('Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'And
             echo '<div class="alert alert-success">' . ($adminMode ? 'The' : 'Your') . ' profile was updated.</div>';
         }
         ?>
-        <form method="post" action="?page=editprofile<?php echo ($adminMode ? '&user_id=' . $userId : '') ?>">
+        <form method="post" action="?page=editprofile<?php echo ($adminMode ? '&id=' . $userId : '') ?>">
             <div class="form-group">
                 <label for="email">Email address:</label>
                 <input type="email" class="form-control" name="email" value="<?php echo $userData['email']; ?>" id="email">

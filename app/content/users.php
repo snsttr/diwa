@@ -58,12 +58,12 @@ catch(Exception $ex) {
                 <?php foreach ($result as $user) { ?>
                     <tr>
                         <td><?php echo $user['id']; ?></td>
-                        <td><?php echo $user['username']; ?></td>
+                        <td><a href="/?page=profile&id=<?php echo $user['id']; ?>"><?php echo $user['username']; ?></a></td>
                         <td><?php echo $user['email']; ?></td>
                         <td><?php echo $user['country']; ?></td>
                         <td><?php echo (1 == $user['is_admin'] ? icon('ok') : ''); ?></td>
                         <td>
-                            <a href="?page=editprofile&user_id=<?php echo $user['id']; ?>" class="btn btn-default" title="Edit User"><?php echo icon('edit'); ?> Edit</a>
+                            <a href="?page=editprofile&id=<?php echo $user['id']; ?>" class="btn btn-default" title="Edit User"><?php echo icon('edit'); ?> Edit</a>
                             <a href="?page=users&remove=<?php echo $user['id']; ?>" class="btn btn-default remove-user" title="Remove User"><?php echo icon('remove'); ?> Remove</a>
                         </td>
                     </tr>

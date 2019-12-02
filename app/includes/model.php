@@ -78,7 +78,7 @@ class Model {
             // change admin status?
             $adminSql = '';
             if(null !== $pChangeAdmin) {
-                $adminSql = ', is_admin = ' . (1 == $_POST['is_admin'] ? 1 : 0);
+                $adminSql = ', is_admin = ' . $pChangeAdmin;
             }
 
             $sql = 'UPDATE ' . $this->prefix . 'users SET email = \'' . $pEmail . '\', country = \'' . $pCountry . '\'' . $passwordSql . $adminSql . ' WHERE id = ' . $pUserId;

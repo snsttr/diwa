@@ -1,7 +1,11 @@
 <?php
-$userId = false;
-if(isset($_GET['user_id'])) {
-    $userId =  $_GET['user_id'];
+$isAdmin = (isset($_SESSION['user']['is_admin']) && 1 == $_SESSION['user']['is_admin']);
+
+if(!empty($_GET['id'])) {
+    $userId =  $_GET['id'];
+}
+else {
+    error(404, 'User could not be found (No "id" provided).');
 }
 
 // find user in database
@@ -9,16 +13,12 @@ try {
     if(false !== $userId) {
         $user = $model->getUserData($userId);
         if (count($user) <= 0) {
-            $userId = false;
+            error(404, 'User could not be found (Wrong "id" provided)');
         }
     }
 }
 catch (Exception $ex) {
     error(500, 'Could not query given user from Database', $ex);
-}
-
-if(false === $userId) {
-    error(404, 'User could not be found');
 }
 
 // find user's threads/posts
@@ -32,12 +32,26 @@ catch(Exception $ex) {
 ?>
 <div class="row">
     <div class="col-lg-12">
-        <h1><?php echo $user[0]['username']; ?>'s Profile<?php echo ($user[0]['is_admin'] ? '<span class="label label-danger pull-right">Admin</span>' : '<span class="label label-default pull-right">User</span>'); ?></h1>
+        <h1>
+            <?php echo $user[0]['username']; ?>'s Profile
+            <?php
+            if(isset($_SESSION['user']['id']) &&  $userId === $_SESSION['user']['id']) {
+                echo '<span class="pull-right"><a href="?page=editprofile" class="btn btn-primary">Edit your profile</a></span>';
+            }
+            elseif($isAdmin) {
+                echo '<span class="pull-right"><a href="?page=editprofile&id=' . $userId . '" class="btn btn-primary">Edit this profile</a></span>';
+            }
+            ?>
+        </h1>
         <table class="table">
             <tbody>
             <tr>
                 <td><strong>Username</strong></td>
                 <td><?php echo $user[0]['username']; ?></td>
+            </tr>
+            <tr>
+                <td><strong>Status</strong></td>
+                <td><?php echo ($user[0]['is_admin'] ? '<span class="label label-danger">Admin</span>' : '<span class="label label-default">User</span>'); ?></td>
             </tr>
             <tr>
                 <td><strong>E-Mail</strong></td>
@@ -59,7 +73,7 @@ catch(Exception $ex) {
             echo '<table class="table"><tbody>';
             foreach ($posts as $post) {
                 $adminsOnly = (1 == $post['thread_admins_only']);
-                $adminRestricted = ($adminsOnly && isset($_SESSION['user']['is_admin']) && 0 == $_SESSION['user']['is_admin']);
+                $adminRestricted = ($adminsOnly && $isAdmin);
                 ?>
                 <tr class="<?php echo ($adminRestricted ? '' : 'clickable-row'); ?>">
                     <td><?php echo ($adminsOnly ? icon('lock') : '') . ' <strong>' . ($adminRestricted ? '' . $post['thread_title'] : '<a href="?page=thread&id=' . $post['thread_id'] . '">' . $post['thread_title'] . '</a>') . '</strong>'; ?></td>
