@@ -29,6 +29,21 @@ if(
     }
 }
 
+// perform a reset?
+if(isset($_GET['reset']) && 'diwa' == $_GET['reset']) {
+    try {
+        if(!include(INSTALLATION_PATH . '/install.php')) {
+            die('Error: could not include "install.php".');
+        }
+        else {
+            die('DIWA\'s Database has been resetted!<br/><a href="/">Back to DIWA</a>');
+        }
+    }
+    catch(Exception $ex) {
+        die('Error: could not include "install.php": ' . $ex->getMessage());
+    }
+}
+
 // start output buffering
 ob_start();
 
