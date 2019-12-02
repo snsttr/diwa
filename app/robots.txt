@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+Disallow: /?page=secret-xu2d7a
