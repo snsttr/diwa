@@ -72,7 +72,7 @@ $adminsOnly = (1 == $thread['admins_only']);
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a name="post-<?php echo $post['id']; ?>"></a>
-                    User: <strong><a href="/?page=profile&id=<?php echo $post['id']; ?>"><?php echo $post['username']; ?></a></strong> <span class="pull-right"><?php echo $post['timestamp']; ?></span>
+                    User: <strong><a href="/?page=profile&id=<?php echo $post['user_id']; ?>"><?php echo $post['username']; ?></a></strong> <span class="pull-right"><?php echo $post['timestamp']; ?></span>
                 </div>
                 <div class="panel-body">
                     <p><?php echo nl2br($post['text']); ?></p>

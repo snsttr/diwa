@@ -73,12 +73,12 @@ catch(Exception $ex) {
             echo '<table class="table"><tbody>';
             foreach ($posts as $post) {
                 $adminsOnly = (1 == $post['thread_admins_only']);
-                $adminRestricted = ($adminsOnly && $isAdmin);
+                $adminRestricted = (!$adminsOnly || $isAdmin);
                 ?>
-                <tr class="<?php echo ($adminRestricted ? '' : 'clickable-row'); ?>">
-                    <td><?php echo ($adminsOnly ? icon('lock') : '') . ' <strong>' . ($adminRestricted ? '' . $post['thread_title'] : '<a href="?page=thread&id=' . $post['thread_id'] . '">' . $post['thread_title'] . '</a>') . '</strong>'; ?></td>
+                <tr class="<?php echo ($adminRestricted ? 'clickable-row' : ''); ?>">
+                    <td><?php echo ($adminsOnly ? icon('lock') : '') . ' <strong>' . ($adminRestricted ? '<a href="?page=thread&id=' . $post['thread_id'] . '">' . $post['thread_title'] . '</a>' : $post['thread_title']) . '</strong>'; ?></td>
                     <td><?php echo $post['post_timestamp']; ?></td>
-                    <td><?php echo ($adminRestricted ? '<em>for Admins only</em>' :  $post['post_text']); ?></td>
+                    <td><?php echo ($adminRestricted ? $post['post_text'] : '<em>for Admins only</em>'); ?></td>
                 </tr>
                 <?php
             }
