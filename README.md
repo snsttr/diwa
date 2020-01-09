@@ -3,11 +3,10 @@ DIWA
 This is just a short description. For full Documentation see [docs](docs) Directory.
 
 ## Requirements
-* PHP 5.6 or higher (PHP7 is recommended) with at least one of the following PDO-Drivers: pdo_sqlite or pdo_mysql
+* PHP 5.6 or higher (PHP 7 is recommended) with at least one of the following PDO-Drivers: pdo_sqlite or pdo_mysql
 * A web browser (Firefox or Chrome are recommended)
 
 ## Manual Installation
-
 1. Clone the repository
 
 2. *Optional:* Install composer dependencies with `composer install`
@@ -39,4 +38,4 @@ There are three options to reset DIWA's Database:
   the database reset.
 * When calling `/?reset=diwa` the database is being resetted instantly (unprompted).
 * To also reset file changes and delete created files, just reset your git workspace (reset / clean).
-  When using MySQL als Database you should additionally use one of the reset methods above.
+  When using MySQL you should additionally use one of the reset methods above.

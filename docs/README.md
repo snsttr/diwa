@@ -3,7 +3,7 @@ Welcome to the DIWA Documentation
 
 ## What is DIWA?
 DIWA is a Deliberately Insecure Web Application, which was built for educational purpose.
-Use DIWA to test your common Web Application Security Flaws like
+Use DIWA to try out common Web Application Security Flaws like
 - [SQL Injection](https://www.owasp.org/index.php/SQL_Injection)
 - [XSS (Cross-Site-Scripting)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))
 - [CSRF (Cross-Site-Request-Forgery)](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF))
